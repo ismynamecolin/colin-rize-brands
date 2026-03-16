@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colin Stuckert | Founder · Operator · Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #CC0000; --red-border: rgba(204,0,0,0.25);
+    --bg: #000000; --bg2: #070707; --bg3: #0d0d0d;
+    --text: #ffffff; --muted: #555;
+    --font-mono: 'Share Tech Mono', monospace;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+  #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.04; pointer-events: none; z-index: 0; }
+
+  /* ── TOP NAV ── */
+  #top-nav-trigger { position: fixed; top: 0; left: 0; right: 0; height: 10px; z-index: 200; }
+  #top-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 190; background: rgba(0,0,0,0.97); border-bottom: 1px solid var(--red-border); padding: 0.9rem 3rem; display: flex; justify-content: space-between; align-items: center; transform: translateY(-100%); transition: transform 0.25s ease; backdrop-filter: blur(12px); }
+  #top-nav.visible { transform: translateY(0); }
+  .top-nav-logo { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 3px; color: var(--red); text-decoration: none; }
+  .top-nav-links { display: flex; gap: 1.5rem; list-style: none; }
+  .top-nav-links a { font-family: var(--font-mono); font-size: 0.6rem; color: var(--muted); text-decoration: none; letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s; }
+  .top-nav-links a:hover { color: #fff; }
+  #nav-hint { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--red); z-index: 180; opacity: 0; transition: opacity 0.3s; }
+  #nav-hint.visible { opacity: 1; }
+
+  /* ── SIDE NAV ── */
+  #side-trigger { position: fixed; right: 0; top: 0; bottom: 0; width: 24px; z-index: 100; }
+  #side-edge { position: fixed; right: 4px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 5px; padding: 8px 4px; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  #side-edge.visible { opacity: 1; }
+  .edge-dot { width: 4px; height: 4px; border-radius: 50%; background: #333; transition: background 0.2s; }
+  .edge-dot.active { background: var(--red); }
+  #side-nav { position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 90; display: flex; flex-direction: column; align-items: flex-end; background: rgba(0,0,0,0.95); border-left: 1px solid var(--red-border); backdrop-filter: blur(12px); clip-path: inset(0 0 0 100%); transition: clip-path 0.22s ease; }
+  #side-nav.open { clip-path: inset(0 0 0 0%); }
+  .side-nav-btn { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; padding: 0.55rem 1rem; cursor: pointer; border: none; background: none; font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 2px; color: var(--muted); width: 100%; text-align: right; transition: color 0.2s; }
+  .side-nav-btn:hover { color: var(--red); }
+  .side-nav-divider { width: 100%; height: 1px; background: var(--red-border); }
+  .side-nav-list { list-style: none; width: 100%; }
+  .side-nav-link { display: flex; align-items: center; justify-content: flex-end; gap: 0.7rem; padding: 0.5rem 1rem; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+  .side-nav-link:hover { background: rgba(204,0,0,0.08); }
+  .side-nav-link.active { background: rgba(204,0,0,0.1); }
+  .side-nav-num { font-family: var(--font-mono); font-size: 0.44rem; color: #333; letter-spacing: 2px; transition: color 0.2s; }
+  .side-nav-label { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 3px; color: #555; transition: color 0.2s; }
+  .side-nav-dot { width: 5px; height: 5px; border-radius: 50%; background: #333; flex-shrink: 0; transition: background 0.2s; }
+  .side-nav-link:hover .side-nav-label { color: #fff; }
+  .side-nav-link:hover .side-nav-dot { background: #888; }
+  .side-nav-link:hover .side-nav-num { color: #888; }
+  .side-nav-link.active .side-nav-label { color: var(--red); }
+  .side-nav-link.active .side-nav-dot { background: var(--red); }
+  .side-nav-link.active .side-nav-num { color: var(--red); }
+
+  /* ── LANDING ── */
+  #landing { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 5rem; }
+  .landing-header { margin-bottom: 2.5rem; }
+  .site-name { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4.5rem); letter-spacing: 4px; color: #fff; line-height: 1; margin-bottom: 0.3rem; }
+  .site-name span { color: var(--red); }
+  .site-tagline { font-family: var(--font-mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 3px; }
+  .toc-list { list-style: none; display: flex; flex-direction: column; max-width: 680px; }
+  .toc-list li { border-top: 1px solid rgba(255,255,255,0.04); }
+  .toc-list li:last-child { border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .toc-list a { display: flex; align-items: center; gap: 1.2rem; padding: 0.5rem 0; text-decoration: none; transition: all 0.2s; }
+  .toc-list a:hover .toc-num { color: #fff; }
+  .toc-list a:hover .toc-title { color: #fff; }
+  .toc-list a:hover .toc-arrow { opacity: 1; transform: translateX(0); }
+  .toc-num { font-family: var(--font-mono); font-size: 0.5rem; color: #2a2a2a; letter-spacing: 2px; width: 24px; flex-shrink: 0; transition: color 0.2s; }
+  .toc-title { font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 3px; color: var(--red); flex: 1; transition: color 0.2s; }
+  .toc-desc { font-family: var(--font-mono); font-size: 0.5rem; color: #2a2a2a; letter-spacing: 1px; flex-shrink: 0; }
+  .toc-arrow { font-family: var(--font-mono); font-size: 0.6rem; color: #fff; opacity: 0; transform: translateX(-6px); transition: all 0.2s; }
+  .landing-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--red-border); border-bottom: 1px solid var(--red-border); margin-top: 2.5rem; max-width: 680px; }
+  .landing-stat { padding: 1.2rem 0; border-right: 1px solid var(--red-border); }
+  .landing-stat:last-child { border-right: none; }
+  .landing-stat-num { font-family: var(--font-display); font-size: 1.8rem; color: var(--red); letter-spacing: 2px; line-height: 1; }
+  .landing-stat-label { font-family: var(--font-mono); font-size: 0.48rem; color: var(--muted); letter-spacing: 1.5px; margin-top: 0.15rem; line-height: 1.4; }
+  .landing-ctas { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 1.5rem; max-width: 680px; }
+  .landing-cta { font-family: var(--font-mono); font-size: 0.52rem; letter-spacing: 2px; color: var(--red); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 0.35rem; }
+  .landing-cta::before { content: '→'; font-size: 0.5rem; }
+  .landing-cta:hover { color: #fff; }
+
+  /* ── SECTIONS ── */
+  .section-wrap { position: relative; z-index: 1; padding: 4rem 5rem; }
+  .section-wrap.alt { background: var(--bg2); }
+  .inner { max-width: 1100px; margin: 0 auto; }
+  .section-label { font-family: var(--font-mono); font-size: 0.66rem; color: var(--red); letter-spacing: 4px; margin-bottom: 0.4rem; }
+  .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: 3px; color: #fff; line-height: 1; margin-bottom: 0.8rem; }
+  .section-title span { color: var(--red); }
+  .divider { width: 50px; height: 2px; background: var(--red); margin: 1rem 0 2.5rem; }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .about-text p { color: #fff; margin-bottom: 1rem; font-size: 0.92rem; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .stat-card { background: var(--bg3); border: 1px solid var(--red-border); padding: 1.2rem; }
+  .stat-num { font-family: var(--font-display); font-size: 2.2rem; color: var(--red); letter-spacing: 2px; line-height: 1; }
+  .stat-label { font-family: var(--font-mono); font-size: 0.56rem; color: #fff; letter-spacing: 1.5px; margin-top: 0.3rem; line-height: 1.5; }
+
+  .work-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
+  .work-card { background: var(--bg3); border: 1px solid var(--red-border); padding: 1.8rem 1.6rem; position: relative; overflow: hidden; transition: border-color 0.2s; text-decoration: none; display: block; }
+  .work-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--red); transform: scaleX(0); transition: transform 0.3s; }
+  .work-card:hover { border-color: rgba(204,0,0,0.6); }
+  .work-card:hover::before { transform: scaleX(1); }
+  .work-card-tag { font-family: var(--font-mono); font-size: 0.56rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.4rem; }
+  .work-card-name { font-family: var(--font-display); font-size: 1.9rem; letter-spacing: 3px; color: #fff; line-height: 1; margin-bottom: 0.3rem; }
+  .work-card-role { font-family: var(--font-mono); font-size: 0.6rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.7rem; }
+  .work-card-desc { font-size: 0.8rem; color: #fff; line-height: 1.7; }
+  .work-card-date { font-family: var(--font-mono); font-size: 0.57rem; color: var(--muted); letter-spacing: 2px; margin-top: 1rem; }
+
+  .media-grid { display: grid; gap: 1px; background: var(--red-border); border: 1px solid var(--red-border); }
+  .media-item { background: var(--bg); padding: 1.3rem 2rem; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2rem; transition: background 0.2s; text-decoration: none; }
+  .media-item:hover { background: var(--bg3); }
+  .media-name { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 3px; color: #fff; margin-bottom: 0.15rem; }
+  .media-role { font-family: var(--font-mono); font-size: 0.6rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.3rem; }
+  .media-desc { font-size: 0.8rem; color: #fff; line-height: 1.5; }
+  .media-badge { font-family: var(--font-mono); font-size: 0.52rem; color: var(--red); border: 1px solid var(--red-border); padding: 0.2rem 0.5rem; letter-spacing: 2px; white-space: nowrap; }
+  .media-date { font-family: var(--font-mono); font-size: 0.58rem; color: var(--muted); letter-spacing: 2px; white-space: nowrap; }
+
+  .rize-companies { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .company-card { background: var(--bg3); border: 1px solid var(--red-border); padding: 1.8rem 1.6rem; position: relative; overflow: hidden; transition: border-color 0.2s; }
+  .company-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--red); transform: scaleX(0); transition: transform 0.3s; }
+  .company-card:hover { border-color: rgba(204,0,0,0.6); }
+  .company-card:hover::before { transform: scaleX(1); }
+  .company-label { font-family: var(--font-mono); font-size: 0.58rem; color: var(--red); letter-spacing: 3px; margin-bottom: 0.3rem; }
+  .company-name { font-family: var(--font-display); font-size: 3rem; letter-spacing: 3px; color: #fff; line-height: 1; margin-bottom: 0.2rem; }
+  .company-sub { font-family: var(--font-display); font-size: 1rem; letter-spacing: 3px; color: var(--red); margin-bottom: 1rem; }
+  .company-desc { font-size: 0.8rem; color: #fff; line-height: 1.7; }
+
+  .agency-box { background: var(--bg3); border: 1px solid var(--red-border); padding: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .agency-heading { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 3px; color: #fff; margin-bottom: 0.8rem; }
+  .agency-heading span { color: var(--red); }
+  .warning-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.58rem; color: var(--red); border: 1px solid var(--red); padding: 0.22rem 0.65rem; letter-spacing: 2px; margin-bottom: 1rem; }
+  .form-input { background: var(--bg); border: 1px solid rgba(255,255,255,0.08); color: #fff; padding: 0.65rem 0.9rem; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 1px; outline: none; transition: border-color 0.2s; width: 100%; }
+  .form-input:focus { border-color: var(--red); }
+  .form-input::placeholder { color: #333; }
+  .contact-form { display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .articles-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--red-border); border: 1px solid var(--red-border); }
+  .article-item { background: var(--bg); padding: 1.4rem; text-decoration: none; display: block; transition: background 0.2s; }
+  .article-item:hover { background: var(--bg3); }
+  .article-num { font-family: var(--font-mono); font-size: 0.58rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.35rem; }
+  .article-title { font-size: 0.86rem; color: #fff; line-height: 1.5; margin-bottom: 0.35rem; }
+  .article-arrow { font-family: var(--font-mono); font-size: 0.64rem; color: var(--red); }
+
+  .books-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--red-border); border: 1px solid var(--red-border); }
+  .book-item { background: var(--bg); padding: 1.3rem 1.5rem; transition: background 0.2s; }
+  .book-item:hover { background: var(--bg3); }
+  .book-num { font-family: var(--font-mono); font-size: 0.56rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.25rem; }
+  .book-title { font-family: var(--font-display); font-size: 1rem; letter-spacing: 2px; color: #fff; margin-bottom: 0.25rem; line-height: 1.2; }
+  .book-note { font-size: 0.76rem; color: #aaa; line-height: 1.5; }
+
+  .social-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--red-border); border: 1px solid var(--red-border); }
+  .social-item { background: var(--bg); padding: 1.3rem 1.8rem; transition: background 0.2s; text-decoration: none; display: block; }
+  .social-item:hover { background: var(--bg3); }
+  .social-platform { font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 3px; color: #fff; margin-bottom: 0.15rem; }
+  .social-since { font-family: var(--font-mono); font-size: 0.57rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.3rem; }
+  .social-note { font-size: 0.72rem; color: #fff; }
+
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--red), transparent); }
+  .timeline-item { position: relative; padding: 0 0 2rem 2.5rem; opacity: 0; transform: translateX(-20px); transition: all 0.5s; }
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+  .timeline-dot { position: absolute; left: -5px; top: 6px; width: 9px; height: 9px; background: var(--red); }
+  .timeline-year { font-family: var(--font-mono); font-size: 0.64rem; color: var(--red); letter-spacing: 3px; margin-bottom: 0.2rem; }
+  .timeline-title { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: 2px; color: #fff; margin-bottom: 0.2rem; }
+  .timeline-desc { font-size: 0.84rem; color: #fff; line-height: 1.6; }
+
+  footer { position: relative; z-index: 1; text-align: center; padding: 1.5rem; border-top: 1px solid var(--red-border); font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 2px; }
+  footer a { color: var(--red); text-decoration: none; }
+  footer a:hover { color: #fff; }
+  a { color: inherit; }
+
+  @media (max-width: 900px) {
+    #landing { padding: 2rem; }
+    .landing-stats-row { grid-template-columns: repeat(2, 1fr); }
+    .section-wrap { padding: 3rem 1.5rem; }
+    .about-grid, .agency-box { grid-template-columns: 1fr; }
+    .rize-companies, .work-cards, .books-grid { grid-template-columns: 1fr; }
+    .articles-grid, .social-grid { grid-template-columns: 1fr; }
+    .media-item { grid-template-columns: 1fr; }
+    #side-nav, #side-trigger, #side-edge { display: none; }
+    #top-nav { padding: 0.8rem 1.5rem; }
+    .top-nav-links { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+<canvas id="matrix-canvas"></canvas>
+<div id="nav-hint"></div>
+<div id="top-nav-trigger"></div>
+
+<nav id="top-nav">
+  <a href="#landing" class="top-nav-logo">COLIN STUCKERT</a>
+  <ul class="top-nav-links">
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#work">WORK</a></li>
+    <li><a href="#rize">RIZE</a></li>
+    <li><a href="#agency">AGENCY</a></li>
+    <li><a href="#writing">WRITING</a></li>
+    <li><a href="#books">BOOKS</a></li>
+    <li><a href="#social">FOLLOW</a></li>
+    <li><a href="#story">TIMELINE</a></li>
+  </ul>
+</nav>
+
+<div id="side-trigger"></div>
+<div id="side-edge">
+  <div class="edge-dot" data-i="0"></div>
+  <div class="edge-dot" data-i="1"></div>
+  <div class="edge-dot" data-i="2"></div>
+  <div class="edge-dot" data-i="3"></div>
+  <div class="edge-dot" data-i="4"></div>
+  <div class="edge-dot" data-i="5"></div>
+  <div class="edge-dot" data-i="6"></div>
+  <div class="edge-dot" data-i="7"></div>
+</div>
+<nav id="side-nav">
+  <button class="side-nav-btn" id="nav-up">▲ &nbsp;UP</button>
+  <div class="side-nav-divider"></div>
+  <ul class="side-nav-list">
+    <li><a href="#about" class="side-nav-link" data-i="0"><span class="side-nav-num">01</span><span class="side-nav-label">ABOUT</span><span class="side-nav-dot"></span></a></li>
+    <li><a href="#work" class="side-nav-link" data-i="1"><span class="side-nav-num">02</span><span class="side-nav-label">WORK</span><span class="side-nav-dot"></span></a></li>
+    <li><a href="#rize" class="side-nav-link" data-i="2"><span class="side-nav-num">03</span><span class="side-nav-label">RIZE BRANDS</span><span class="side-nav-dot"></span></a></li>
+    <li><a href="#agency" class="side-nav-link" data-i="3"><span class="side-nav-num">04</span><span class="side-nav-label">AGENCY</span><span class="side-nav-dot"></span></a></li>
+    <li><a href="#writing" class="side-nav-link" data-i="4"><span class="side-nav-num">05</span><span class="side-nav-label">WRITING</span><span class="side-nav-dot"></span></a></li>
+    <li><a href="#books" class="side-nav-link" data-i="5"><span class="side-nav-num">06</span><span class="side-nav-label">BOOKS</span><span class="side-nav-dot"></span></a></li>
+    <li><a href="#social" class="side-nav-link" data-i="6"><span class="side-nav-num">07</span><span class="side-nav-label">FOLLOW</span><span class="side-nav-dot"></span></a></li>
+    <li><a href="#story" class="side-nav-link" data-i="7"><span class="side-nav-num">08</span><span class="side-nav-label">TIMELINE</span><span class="side-nav-dot"></span></a></li>
+  </ul>
+  <div class="side-nav-divider"></div>
+  <button class="side-nav-btn" id="nav-down">▼ &nbsp;DOWN</button>
+</nav>
+
+<!-- LANDING -->
+<div id="landing">
+  <div class="landing-header">
+    <div class="site-name">COLIN<br><span>STUCKERT</span></div>
+    <div class="site-tagline">// FOUNDER · OPERATOR · BUILDER</div>
+  </div>
+  <ul class="toc-list">
+    <li><a href="#about"><span class="toc-num">01</span><span class="toc-title">ABOUT</span><span class="toc-desc">Who I am</span><span class="toc-arrow">→</span></a></li>
+    <li><a href="#work"><span class="toc-num">02</span><span class="toc-title">WORK</span><span class="toc-desc">What I run</span><span class="toc-arrow">→</span></a></li>
+    <li><a href="#rize"><span class="toc-num">03</span><span class="toc-title">RIZE BRANDS</span><span class="toc-desc">My company</span><span class="toc-arrow">→</span></a></li>
+    <li><a href="#agency"><span class="toc-num">04</span><span class="toc-title">AGENCY</span><span class="toc-desc">Work with me</span><span class="toc-arrow">→</span></a></li>
+    <li><a href="#writing"><span class="toc-num">05</span><span class="toc-title">WRITING</span><span class="toc-desc">Evergreen reads</span><span class="toc-arrow">→</span></a></li>
+    <li><a href="#books"><span class="toc-num">06</span><span class="toc-title">BOOKS</span><span class="toc-desc">Reading list</span><span class="toc-arrow">→</span></a></li>
+    <li><a href="#social"><span class="toc-num">07</span><span class="toc-title">FOLLOW</span><span class="toc-desc">Socials</span><span class="toc-arrow">→</span></a></li>
+    <li><a href="#story"><span class="toc-num">08</span><span class="toc-title">TIMELINE</span><span class="toc-desc">Origin story</span><span class="toc-arrow">→</span></a></li>
+  </ul>
+  <div class="landing-stats-row">
+    <div class="landing-stat"><div class="landing-stat-num">22 YRS</div><div class="landing-stat-label">WORKING FOR MYSELF</div></div>
+    <div class="landing-stat"><div class="landing-stat-num">5</div><div class="landing-stat-label">EXITS · 2 ACQS</div></div>
+    <div class="landing-stat"><div class="landing-stat-num">$50M+</div><div class="landing-stat-label">REVENUE ONLINE</div></div>
+    <div class="landing-stat"><div class="landing-stat-num">12 YRS</div><div class="landing-stat-label">IN E-COMMERCE</div></div>
+  </div>
+  <div class="landing-ctas">
+    <a href="https://wildfoods.co" target="_blank" class="landing-cta">wildfoods.co</a>
+    <a href="https://carnivorebar.com" target="_blank" class="landing-cta">carnivorebar.com</a>
+    <a href="https://betterhumans.substack.com" target="_blank" class="landing-cta">better human newsletter</a>
+    <a href="https://x.com/colinstuckert" target="_blank" class="landing-cta">@colinstuckert on x</a>
+    <a href="https://instagram.com/colinstuckert" target="_blank" class="landing-cta">@colinstuckert on instagram</a>
+    <a href="https://www.linkedin.com/in/colinstuckert" target="_blank" class="landing-cta">linkedin</a>
+    <a href="https://www.youtube.com/@ColinStuckert" target="_blank" class="landing-cta">youtube</a>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="section-wrap" id="about"><div class="inner">
+  <p class="section-label">// 01 · ABOUT</p>
+  <h2 class="section-title">FOUNDER.<br>OPERATOR.<br><span>OBSESSED.</span></h2>
+  <div class="divider"></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I've spent my career launching things from scratch. It's incredible how creative you can be when you have to be.</p>
+      <p>Today I run <a href="#rize" style="color:var(--red);text-decoration:none;">Rize Brands</a>, my e-commerce holding company and creative agency. I'm also CEO of <a href="https://wildfoods.co" target="_blank" style="color:var(--red);text-decoration:none;">Wild Foods</a> and <a href="https://carnivorebar.com" target="_blank" style="color:var(--red);text-decoration:none;">Carnivore Bar</a>.</p>
+      <p>I write the Better Human newsletter to help you win in the AI age.</p>
+      <p>I also yap on socials. Links below.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card"><div class="stat-num">22 YRS</div><div class="stat-label">WORKING FOR MYSELF</div></div>
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">EXITS · 2 ACQUISITIONS</div></div>
+      <div class="stat-card"><div class="stat-num">12 YRS</div><div class="stat-label">IN E-COMMERCE</div></div>
+      <div class="stat-card"><div class="stat-num">$50M+</div><div class="stat-label">REVENUE GENERATED ONLINE</div></div>
+    </div>
+  </div>
+</div></div>
+
+<!-- WORK -->
+<div class="section-wrap alt" id="work"><div class="inner">
+  <p class="section-label">// 02 · WORK</p>
+  <h2 class="section-title">WHAT I<br><span>RUN</span></h2>
+  <div class="divider"></div>
+  <div class="work-cards">
+    <a href="https://wildfoods.co" target="_blank" class="work-card">
+      <div class="work-card-tag">// STANDALONE COMPANY</div>
+      <div class="work-card-name">WILD FOODS</div>
+      <div class="work-card-role">FOUNDER / CEO</div>
+      <div class="work-card-desc">Premium e-commerce food and supplement brand. Built from an Austin apartment. 2 exits, 2 acquisitions — including buying it back from a failed PE fund and 4X'ing revenue in 16 months.</div>
+      <div class="work-card-date">2015 – CURRENT &nbsp;·&nbsp; <span style="color:var(--red);">2 EXITS · 2 ACQS</span></div>
+    </a>
+    <a href="https://carnivorebar.com" target="_blank" class="work-card">
+      <div class="work-card-tag">// STANDALONE COMPANY</div>
+      <div class="work-card-name">CARNIVORE BAR</div>
+      <div class="work-card-role">CEO</div>
+      <div class="work-card-desc">The original meat bar. Clean ingredients, no fillers. Built for the carnivore and ancestral health community.</div>
+      <div class="work-card-date">JAN 2026 – CURRENT</div>
+    </a>
+    <a href="#rize" class="work-card">
+      <div class="work-card-tag">// MY COMPANY</div>
+      <div class="work-card-name">RIZE BRANDS</div>
+      <div class="work-card-role">OWNER</div>
+      <div class="work-card-desc">My brands, my agency, my capital arm. We work with only a few clients at a time.</div>
+      <div class="work-card-date">2023 – CURRENT</div>
+    </a>
+  </div>
+  <div style="font-family:var(--font-mono);font-size:0.58rem;color:var(--muted);letter-spacing:3px;margin-bottom:1rem;">// CONTENT & MEDIA</div>
+  <div class="media-grid">
+    <a href="https://betterhumans.substack.com" target="_blank" class="media-item">
+      <div><div class="media-name">BETTER HUMAN</div><div class="media-role">NEWSLETTER · FOUNDER</div><div class="media-desc">Helping you win in the AI age.</div></div>
+      <div class="media-date">2020 – CURRENT</div>
+    </a>
+    <a href="https://www.youtube.com/@ColinStuckert" target="_blank" class="media-item">
+      <div><div class="media-name">YOUTUBE</div><div class="media-role">@COLINSTUCKERT</div><div class="media-desc">Brand building, AI, health, operator life.</div></div>
+      <div class="media-date">A WHILE AGO</div>
+    </a>
+    <div class="media-item">
+      <div><div class="media-name">MOAT BUILDERS</div><div class="media-role">SHOW · CO-HOST</div><div class="media-desc">Building a personal moat in the age of AI.</div></div>
+      <div class="media-badge">COMING SOON</div>
+    </div>
+  </div>
+</div></div>
+
+<!-- RIZE -->
+<div class="section-wrap" id="rize"><div class="inner">
+  <p class="section-label">// 03 · MY COMPANY</p>
+  <h2 class="section-title">RIZE<br><span>BRANDS</span></h2>
+  <div class="divider"></div>
+  <p style="color:#fff;font-size:0.88rem;max-width:600px;margin-bottom:2.5rem;line-height:1.8;">My brands, my agency, my capital arm. We work with only a few clients at a time.</p>
+  <div class="rize-companies">
+    <div class="company-card"><div class="company-label">// RIZE</div><div class="company-name">HOLD CO</div><div class="company-sub">MY BRANDS</div><div class="company-desc">Where I launch, acquire, and operate consumer brands.</div></div>
+    <div class="company-card"><div class="company-label">// RIZE</div><div class="company-name">CREATIVE</div><div class="company-sub">AI AGENCY</div><div class="company-desc">AI-powered brand building.</div></div>
+    <div class="company-card"><div class="company-label">// RIZE</div><div class="company-name">CAPITAL</div><div class="company-sub">INVESTMENTS & LOANS</div><div class="company-desc">Operator-first capital for e-commerce brands.</div></div>
+  </div>
+</div></div>
+
+<!-- AGENCY -->
+<div class="section-wrap alt" id="agency"><div class="inner">
+  <p class="section-label">// 04 · AGENCY</p>
+  <h2 class="section-title">WORK WITH<br><span>RIZE CREATIVE</span></h2>
+  <div class="divider"></div>
+  <div class="agency-box">
+    <div>
+      <div class="warning-tag">⚡ VERY LIMITED AVAILABILITY</div>
+      <h3 class="agency-heading">WE LAUNCH &<br><span>SCALE BRANDS.</span></h3>
+      <p style="font-size:0.84rem;color:#fff;line-height:1.8;margin-bottom:0.8rem;">We take on a small number of clients per year. Strategy, AI systems, growth execution. We build alongside you.</p>
+      <p style="font-size:0.84rem;color:#fff;line-height:1.8;margin-bottom:0.8rem;">$500K to $5M in e-commerce revenue? Let's talk.</p>
+      <div style="display:flex;flex-direction:column;gap:0.35rem;margin-top:0.6rem;">
+        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#fff;">→ &nbsp;Brand launch strategy</div>
+        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#fff;">→ &nbsp;AI-powered creative systems</div>
+        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#fff;">→ &nbsp;E-commerce growth operations</div>
+        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#fff;">→ &nbsp;Capital strategy and introductions</div>
+      </div>
+    </div>
+    <div class="contact-form" id="agencyForm">
+      <input class="form-input" type="text" placeholder="YOUR NAME" id="aName">
+      <input class="form-input" type="email" placeholder="EMAIL ADDRESS">
+      <input class="form-input" type="text" placeholder="COMPANY / BRAND">
+      <input class="form-input" type="text" placeholder="CURRENT ANNUAL REVENUE">
+      <textarea class="form-input" placeholder="WHAT DO YOU NEED?" rows="3" style="resize:none;"></textarea>
+      <button onclick="submitForm()" style="font-family:var(--font-mono);font-size:0.7rem;letter-spacing:2px;background:var(--red);border:none;color:#fff;cursor:pointer;padding:0.8rem;width:100%;">SUBMIT APPLICATION →</button>
+      <div id="formMsg" style="display:none;font-family:var(--font-mono);font-size:0.66rem;color:var(--red);letter-spacing:2px;text-align:center;padding:0.5rem;">// MESSAGE RECEIVED. WE'LL BE IN TOUCH.</div>
+    </div>
+  </div>
+</div></div>
+
+<!-- WRITING -->
+<div class="section-wrap" id="writing"><div class="inner">
+  <p class="section-label">// 05 · WRITING</p>
+  <h2 class="section-title">EVERGREEN<br><span>READS</span></h2>
+  <div class="divider"></div>
+  <div class="articles-grid">
+    <a href="articles/assets-vs-income-ai-age.html" class="article-item"><div class="article-num">// 001</div><div class="article-title">Why Owning Assets Beats Earning Income in the Age of AI</div><div class="article-arrow">READ →</div></a>
+    <a href="articles/moat-framework.html" class="article-item"><div class="article-num">// 002</div><div class="article-title">The Moat Framework: Building Businesses That Are Hard to Kill</div><div class="article-arrow">READ →</div></a>
+    <a href="articles/4x-revenue-after-pe.html" class="article-item"><div class="article-num">// 003</div><div class="article-title">How to 4X Revenue After a PE Group Destroys Your Company</div><div class="article-arrow">READ →</div></a>
+    <a href="articles/zero-to-3m-ecommerce.html" class="article-item"><div class="article-num">// 004</div><div class="article-title">Zero to $3M: What E-Commerce Actually Looks Like</div><div class="article-arrow">READ →</div></a>
+    <a href="articles/ai-agents-are-here.html" class="article-item"><div class="article-num">// 005</div><div class="article-title">AI Agents Aren't Coming. They're Here. Here's How to Use Them.</div><div class="article-arrow">READ →</div></a>
+    <a href="articles/metrics-that-matter.html" class="article-item"><div class="article-num">// 006</div><div class="article-title">The Only Metrics That Matter for a Consumer Brand</div><div class="article-arrow">READ →</div></a>
+    <a href="articles/selling-to-pe.html" class="article-item"><div class="article-num">// 007</div><div class="article-title">Selling to PE: What They Don't Tell You Before You Sign</div><div class="article-arrow">READ →</div></a>
+    <a href="articles/operators-edge.html" class="article-item"><div class="article-num">// 008</div><div class="article-title">The Operator's Edge: How Systems Beat Hustle Every Time</div><div class="article-arrow">READ →</div></a>
+    <a href="articles/dropout-poker-win.html" class="article-item"><div class="article-num">// 009</div><div class="article-title">Why I Dropped Out, Played Poker, and Still Won</div><div class="article-arrow">READ →</div></a>
+    <a href="articles/deal-club-loyalty.html" class="article-item"><div class="article-num">// 010</div><div class="article-title">Deal Club: How to Build Loyalty Programs That Actually Work</div><div class="article-arrow">READ →</div></a>
+  </div>
+</div></div>
+
+<!-- BOOKS -->
+<div class="section-wrap alt" id="books"><div class="inner">
+  <p class="section-label">// 06 · READING LIST</p>
+  <h2 class="section-title">BOOKS THAT<br><span>HIT DIFFERENT</span></h2>
+  <div class="divider"></div>
+  <div class="books-grid">
+    <div class="book-item"><div class="book-num">// 001</div><div class="book-title">RED RISING SERIES</div><div class="book-note">Pierce Brown. My son is named after the main character. That's all you need to know.</div></div>
+    <div class="book-item"><div class="book-num">// 002</div><div class="book-title">THE ART OF LIVING</div><div class="book-note">Sharon Lebell. One of my first books on Stoicism. Such a damn fine read.</div></div>
+    <div class="book-item"><div class="book-num">// 003</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 004</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 005</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 006</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 007</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 008</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 009</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
+  </div>
+</div></div>
+
+<!-- SOCIAL -->
+<div class="section-wrap" id="social"><div class="inner">
+  <p class="section-label">// 07 · FOLLOW THE BUILD</p>
+  <h2 class="section-title">STAY IN<br><span>THE LOOP</span></h2>
+  <div class="divider"></div>
+  <div class="social-grid">
+    <a href="https://www.linkedin.com/in/colinstuckert" target="_blank" class="social-item"><div class="social-platform">LINKEDIN</div><div class="social-since">// SINCE ~2024</div><div class="social-note">Relatively new. Staying as long as it stays useful.</div></a>
+    <a href="https://x.com/colinstuckert" target="_blank" class="social-item"><div class="social-platform">X / TWITTER</div><div class="social-since">// @COLINSTUCKERT</div><div class="social-note">Thoughts on brand building, AI, and operator life.</div></a>
+    <a href="https://instagram.com/colinstuckert" target="_blank" class="social-item"><div class="social-platform">INSTAGRAM</div><div class="social-since">// @COLINSTUCKERT</div><div class="social-note">Been there a while. No idea when it started.</div></a>
+    <a href="#" target="_blank" class="social-item"><div class="social-platform">TIKTOK</div><div class="social-since">// SINCE 2020</div><div class="social-note">Lots of account warnings. Still standing.</div></a>
+    <a href="https://betterhumans.substack.com" target="_blank" class="social-item"><div class="social-platform">NEWSLETTER</div><div class="social-since">// BETTER HUMAN · SINCE 2020</div><div class="social-note">Helping you win in the AI age.</div></a>
+    <a href="https://www.youtube.com/@ColinStuckert" target="_blank" class="social-item"><div class="social-platform">YOUTUBE</div><div class="social-since">// @COLINSTUCKERT</div><div class="social-note">Long-form on brand building, AI, and operator life.</div></a>
+  </div>
+</div></div>
+
+<!-- TIMELINE -->
+<div class="section-wrap alt" id="story"><div class="inner">
+  <p class="section-label">// 08 · ORIGIN STORY</p>
+  <h2 class="section-title">THE<br><span>TIMELINE</span></h2>
+  <div class="divider"></div>
+  <div class="timeline" id="timeline">
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">EARLY DAYS</div><div class="timeline-title">TEENAGER → MTG + AOK DEATHMATCH</div><div class="timeline-desc">Started with Magic: The Gathering. Then found Age of Empires: Age of Kings Deathmatch. Got good. Eventually became one of the best players in the world.</div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">COLLEGE → PRO POKER</div><div class="timeline-title">DROPOUT → FULL-TIME POKER</div><div class="timeline-desc">College wasn't for me. Found poker. Made enough to do it full time.</div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">FIRST BIZ</div><div class="timeline-title">JUICE BAR · LA FITNESS</div><div class="timeline-desc">Used my bankroll to buy a franchise juice bar inside a gym. Was a great starter business. Learned a lot.</div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">SWFL</div><div class="timeline-title">SW FLORIDA'S LARGEST CROSSFIT GYM</div><div class="timeline-desc">Built SW Florida's largest CrossFit gym. Six years. First exit.</div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">AUSTIN, TX · 2015</div><div class="timeline-title">WILD FOODS · ZERO TO $3M+</div><div class="timeline-desc">Moved with an idea. Launched Wild Foods from zero to $3M+ in 24 months. Bootstrapped and profitable.</div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2019</div><div class="timeline-title">SOLD 51% TO PE · EXIT #1</div><div class="timeline-desc">Sold 51% of Wild to a PE group. Watched them destroy it. Was patient.</div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2022</div><div class="timeline-title">BOUGHT IT BACK · ACQUISITION #1</div><div class="timeline-desc">The fund collapsed and I bought Wild Foods back for pennies. Fixed it. 4X'd the biz in 16 months.</div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2023</div><div class="timeline-title">EXIT #2 · SOLD TO PRIVATE INVESTOR</div><div class="timeline-desc">Sold Wild Foods to a private investor. Stayed on as CEO. Got the itch to build something new.</div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2023 → NOW</div><div class="timeline-title">RIZE BRANDS · LAUNCHED</div><div class="timeline-desc">Launched Rize. An ecom hold co and creative agency.</div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2026 → NOW</div><div class="timeline-title">CARNIVORE BAR · CEO</div><div class="timeline-desc">Came on as Carnivore Bar CEO in January 2026.</div></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">NOW</div><div class="timeline-title">FATHER OF 3</div><div class="timeline-desc">Somewhere in FL or the Carolinas.</div></div>
+  </div>
+</div></div>
+
+<footer>
+  <a href="#landing">COLIN STUCKERT</a> &nbsp;·&nbsp; © 2026 &nbsp;·&nbsp;
+  <a href="https://rizebrands.co" target="_blank">RIZEBRANDS.CO</a>
+</footer>
+
+<script>
+const canvas = document.getElementById('matrix-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const fontSize = 14;
+let drops = Array(Math.floor(window.innerWidth / fontSize)).fill(1);
+function drawMatrix() {
+  ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#CC0000'; ctx.font = fontSize + 'px Share Tech Mono';
+  for (let i = 0; i < drops.length; i++) {
+    ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, drops[i] * fontSize);
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  }
+}
+setInterval(drawMatrix, 50);
+
+const tlObs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.1 });
+document.querySelectorAll('.timeline-item').forEach(el => tlObs.observe(el));
+
+const topNav = document.getElementById('top-nav');
+const trigger = document.getElementById('top-nav-trigger');
+const navHint = document.getElementById('nav-hint');
+let navTimeout;
+function showTopNav() { clearTimeout(navTimeout); topNav.classList.add('visible'); }
+function hideTopNav() { navTimeout = setTimeout(() => topNav.classList.remove('visible'), 700); }
+[trigger, topNav, navHint].forEach(el => { el.addEventListener('mouseenter', showTopNav); el.addEventListener('mouseleave', hideTopNav); });
+
+const sideNav = document.getElementById('side-nav');
+const sideTrigger = document.getElementById('side-trigger');
+const sideEdge = document.getElementById('side-edge');
+const sideLinks = document.querySelectorAll('.side-nav-link');
+const edgeDots = document.querySelectorAll('.edge-dot');
+const sectionIds = ['about','work','rize','agency','writing','books','social','story'];
+const sectionEls = sectionIds.map(id => document.getElementById(id));
+let currentIdx = 0;
+let sideHideTimeout;
+
+function openSideNav() { clearTimeout(sideHideTimeout); sideNav.classList.add('open'); }
+function closeSideNav() { sideHideTimeout = setTimeout(() => sideNav.classList.remove('open'), 350); }
+sideTrigger.addEventListener('mouseenter', openSideNav);
+sideNav.addEventListener('mouseenter', openSideNav);
+sideTrigger.addEventListener('mouseleave', closeSideNav);
+sideNav.addEventListener('mouseleave', closeSideNav);
+
+document.getElementById('nav-up').addEventListener('click', () => {
+  sectionEls[Math.max(0, currentIdx - 1)].scrollIntoView({ behavior: 'smooth' });
+});
+document.getElementById('nav-down').addEventListener('click', () => {
+  sectionEls[Math.min(sectionEls.length - 1, currentIdx + 1)].scrollIntoView({ behavior: 'smooth' });
+});
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY > document.getElementById('landing').offsetHeight * 0.5;
+  sideEdge.classList.toggle('visible', scrolled);
+  navHint.classList.toggle('visible', scrolled);
+  let idx = 0;
+  sectionEls.forEach((el, i) => { if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.5) idx = i; });
+  currentIdx = idx;
+  sideLinks.forEach(l => l.classList.toggle('active', parseInt(l.dataset.i) === idx));
+  edgeDots.forEach(d => d.classList.toggle('active', parseInt(d.dataset.i) === idx));
+});
+
+function submitForm() {
+  const n = document.getElementById('aName').value;
+  if (!n.trim()) { document.getElementById('aName').focus(); return; }
+  document.getElementById('agencyForm').querySelectorAll('input,textarea,button').forEach(el => el.style.display = 'none');
+  document.getElementById('formMsg').style.display = 'block';
+}
+</script>
+</body>
+</html>

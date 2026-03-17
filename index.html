@@ -10,7 +10,7 @@
   :root {
     --red: #CC0000; --red-border: rgba(204,0,0,0.25);
     --bg: #000000; --bg2: #070707; --bg3: #0d0d0d;
-    --text: #ffffff; --muted: #555;
+    --text: #ffffff; --muted: #888;
     --font-mono: 'Share Tech Mono', monospace;
     --font-display: 'Bebas Neue', sans-serif;
     --font-body: 'Inter', sans-serif;
@@ -18,106 +18,93 @@
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
   #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.04; pointer-events: none; z-index: 0; }
-
-  /* ── TOP NAV ── */
   #top-nav-trigger { position: fixed; top: 0; left: 0; right: 0; height: 10px; z-index: 200; }
   #top-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 190; background: rgba(0,0,0,0.97); border-bottom: 1px solid var(--red-border); padding: 0.9rem 3rem; display: flex; justify-content: space-between; align-items: center; transform: translateY(-100%); transition: transform 0.25s ease; backdrop-filter: blur(12px); }
   #top-nav.visible { transform: translateY(0); }
   .top-nav-logo { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 3px; color: var(--red); text-decoration: none; }
   .top-nav-links { display: flex; gap: 1.5rem; list-style: none; }
-  .top-nav-links a { font-family: var(--font-mono); font-size: 0.6rem; color: var(--muted); text-decoration: none; letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s; }
+  .top-nav-links a { font-family: var(--font-mono); font-size: 0.6rem; color: #999; text-decoration: none; letter-spacing: 2px; text-transform: uppercase; transition: color 0.2s; }
   .top-nav-links a:hover { color: #fff; }
   #nav-hint { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--red); z-index: 180; opacity: 0; transition: opacity 0.3s; }
   #nav-hint.visible { opacity: 1; }
-
-  /* ── SIDE NAV ── */
   #side-trigger { position: fixed; right: 0; top: 0; bottom: 0; width: 24px; z-index: 100; }
   #side-edge { position: fixed; right: 4px; top: 50%; transform: translateY(-50%); z-index: 80; display: flex; flex-direction: column; gap: 5px; padding: 8px 4px; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
   #side-edge.visible { opacity: 1; }
-  .edge-dot { width: 4px; height: 4px; border-radius: 50%; background: #333; transition: background 0.2s; }
+  .edge-dot { width: 4px; height: 4px; border-radius: 50%; background: #444; transition: background 0.2s; }
   .edge-dot.active { background: var(--red); }
   #side-nav { position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 90; display: flex; flex-direction: column; align-items: flex-end; background: rgba(0,0,0,0.95); border-left: 1px solid var(--red-border); backdrop-filter: blur(12px); clip-path: inset(0 0 0 100%); transition: clip-path 0.22s ease; }
   #side-nav.open { clip-path: inset(0 0 0 0%); }
-  .side-nav-btn { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; padding: 0.55rem 1rem; cursor: pointer; border: none; background: none; font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 2px; color: var(--muted); width: 100%; text-align: right; transition: color 0.2s; }
+  .side-nav-btn { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; padding: 0.55rem 1rem; cursor: pointer; border: none; background: none; font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 2px; color: #888; width: 100%; text-align: right; transition: color 0.2s; }
   .side-nav-btn:hover { color: var(--red); }
   .side-nav-divider { width: 100%; height: 1px; background: var(--red-border); }
   .side-nav-list { list-style: none; width: 100%; }
   .side-nav-link { display: flex; align-items: center; justify-content: flex-end; gap: 0.7rem; padding: 0.5rem 1rem; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
   .side-nav-link:hover { background: rgba(204,0,0,0.08); }
   .side-nav-link.active { background: rgba(204,0,0,0.1); }
-  .side-nav-num { font-family: var(--font-mono); font-size: 0.44rem; color: #333; letter-spacing: 2px; transition: color 0.2s; }
-  .side-nav-label { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 3px; color: #555; transition: color 0.2s; }
-  .side-nav-dot { width: 5px; height: 5px; border-radius: 50%; background: #333; flex-shrink: 0; transition: background 0.2s; }
+  .side-nav-num { font-family: var(--font-mono); font-size: 0.44rem; color: #555; letter-spacing: 2px; transition: color 0.2s; }
+  .side-nav-label { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 3px; color: #777; transition: color 0.2s; }
+  .side-nav-dot { width: 5px; height: 5px; border-radius: 50%; background: #444; flex-shrink: 0; transition: background 0.2s; }
   .side-nav-link:hover .side-nav-label { color: #fff; }
   .side-nav-link:hover .side-nav-dot { background: #888; }
   .side-nav-link:hover .side-nav-num { color: #888; }
   .side-nav-link.active .side-nav-label { color: var(--red); }
   .side-nav-link.active .side-nav-dot { background: var(--red); }
   .side-nav-link.active .side-nav-num { color: var(--red); }
-
-  /* ── LANDING ── */
-  #landing { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 5rem; }
+  #landing { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 5rem; max-width: 1200px; margin: 0 auto; width: 100%; }
   .landing-header { margin-bottom: 2.5rem; }
   .site-name { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4.5rem); letter-spacing: 4px; color: #fff; line-height: 1; margin-bottom: 0.3rem; }
   .site-name span { color: var(--red); }
-  .site-tagline { font-family: var(--font-mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 3px; }
+  .site-tagline { font-family: var(--font-mono); font-size: 0.78rem; color: #ccc; letter-spacing: 3px; }
   .toc-list { list-style: none; display: flex; flex-direction: column; max-width: 680px; }
-  .toc-list li { border-top: 1px solid rgba(255,255,255,0.04); }
-  .toc-list li:last-child { border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .toc-list li { border-top: 1px solid rgba(255,255,255,0.06); }
+  .toc-list li:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
   .toc-list a { display: flex; align-items: center; gap: 1.2rem; padding: 0.5rem 0; text-decoration: none; transition: all 0.2s; }
   .toc-list a:hover .toc-num { color: #fff; }
   .toc-list a:hover .toc-title { color: #fff; }
   .toc-list a:hover .toc-arrow { opacity: 1; transform: translateX(0); }
-  .toc-num { font-family: var(--font-mono); font-size: 0.5rem; color: #2a2a2a; letter-spacing: 2px; width: 24px; flex-shrink: 0; transition: color 0.2s; }
+  .toc-num { font-family: var(--font-mono); font-size: 0.5rem; color: #444; letter-spacing: 2px; width: 24px; flex-shrink: 0; transition: color 0.2s; }
   .toc-title { font-family: var(--font-display); font-size: 1.05rem; letter-spacing: 3px; color: var(--red); flex: 1; transition: color 0.2s; }
-  .toc-desc { font-family: var(--font-mono); font-size: 0.5rem; color: #2a2a2a; letter-spacing: 1px; flex-shrink: 0; }
+  .toc-desc { font-family: var(--font-mono); font-size: 0.5rem; color: #444; letter-spacing: 1px; flex-shrink: 0; }
   .toc-arrow { font-family: var(--font-mono); font-size: 0.6rem; color: #fff; opacity: 0; transform: translateX(-6px); transition: all 0.2s; }
   .landing-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--red-border); border-bottom: 1px solid var(--red-border); margin-top: 2.5rem; max-width: 680px; }
   .landing-stat { padding: 1.2rem 0; border-right: 1px solid var(--red-border); }
   .landing-stat:last-child { border-right: none; }
   .landing-stat-num { font-family: var(--font-display); font-size: 1.8rem; color: var(--red); letter-spacing: 2px; line-height: 1; }
-  .landing-stat-label { font-family: var(--font-mono); font-size: 0.48rem; color: var(--muted); letter-spacing: 1.5px; margin-top: 0.15rem; line-height: 1.4; }
+  .landing-stat-label { font-family: var(--font-mono); font-size: 0.48rem; color: #bbb; letter-spacing: 1.5px; margin-top: 0.15rem; line-height: 1.4; }
   .landing-ctas { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 1.5rem; max-width: 680px; }
-  .landing-cta { font-family: var(--font-mono); font-size: 0.52rem; letter-spacing: 2px; color: var(--red); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 0.35rem; }
-  .landing-cta::before { content: '→'; font-size: 0.5rem; }
+  .landing-cta { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 2px; color: var(--red); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 0.35rem; }
+  .landing-cta::before { content: '→'; font-size: 0.58rem; }
   .landing-cta:hover { color: #fff; }
-
-  /* ── SECTIONS ── */
-  .section-wrap { position: relative; z-index: 1; padding: 4rem 5rem; }
+  .section-wrap { position: relative; z-index: 1; padding: 4rem 0; }
   .section-wrap.alt { background: var(--bg2); }
-  .inner { max-width: 1100px; margin: 0 auto; }
+  .inner { max-width: 1200px; margin: 0 auto; padding: 0 5rem; }
   .section-label { font-family: var(--font-mono); font-size: 0.66rem; color: var(--red); letter-spacing: 4px; margin-bottom: 0.4rem; }
   .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: 3px; color: #fff; line-height: 1; margin-bottom: 0.8rem; }
   .section-title span { color: var(--red); }
   .divider { width: 50px; height: 2px; background: var(--red); margin: 1rem 0 2.5rem; }
-
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-  .about-text p { color: #fff; margin-bottom: 1rem; font-size: 0.92rem; }
+  .about-text p { color: #ddd; margin-bottom: 1rem; font-size: 0.95rem; }
   .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .stat-card { background: var(--bg3); border: 1px solid var(--red-border); padding: 1.2rem; }
   .stat-num { font-family: var(--font-display); font-size: 2.2rem; color: var(--red); letter-spacing: 2px; line-height: 1; }
-  .stat-label { font-family: var(--font-mono); font-size: 0.56rem; color: #fff; letter-spacing: 1.5px; margin-top: 0.3rem; line-height: 1.5; }
-
+  .stat-label { font-family: var(--font-mono); font-size: 0.56rem; color: #ccc; letter-spacing: 1.5px; margin-top: 0.3rem; line-height: 1.5; }
   .work-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
   .work-card { background: var(--bg3); border: 1px solid var(--red-border); padding: 1.8rem 1.6rem; position: relative; overflow: hidden; transition: border-color 0.2s; text-decoration: none; display: block; }
   .work-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--red); transform: scaleX(0); transition: transform 0.3s; }
   .work-card:hover { border-color: rgba(204,0,0,0.6); }
   .work-card:hover::before { transform: scaleX(1); }
-  .work-card-tag { font-family: var(--font-mono); font-size: 0.56rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.4rem; }
   .work-card-name { font-family: var(--font-display); font-size: 1.9rem; letter-spacing: 3px; color: #fff; line-height: 1; margin-bottom: 0.3rem; }
   .work-card-role { font-family: var(--font-mono); font-size: 0.6rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.7rem; }
-  .work-card-desc { font-size: 0.8rem; color: #fff; line-height: 1.7; }
-  .work-card-date { font-family: var(--font-mono); font-size: 0.57rem; color: var(--muted); letter-spacing: 2px; margin-top: 1rem; }
-
+  .work-card-desc { font-size: 0.8rem; color: #ccc; line-height: 1.7; }
+  .work-card-date { font-family: var(--font-mono); font-size: 0.57rem; color: #999; letter-spacing: 2px; margin-top: 1rem; }
   .media-grid { display: grid; gap: 1px; background: var(--red-border); border: 1px solid var(--red-border); }
   .media-item { background: var(--bg); padding: 1.3rem 2rem; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2rem; transition: background 0.2s; text-decoration: none; }
   .media-item:hover { background: var(--bg3); }
   .media-name { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 3px; color: #fff; margin-bottom: 0.15rem; }
   .media-role { font-family: var(--font-mono); font-size: 0.6rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.3rem; }
-  .media-desc { font-size: 0.8rem; color: #fff; line-height: 1.5; }
+  .media-desc { font-size: 0.8rem; color: #ccc; line-height: 1.5; }
   .media-badge { font-family: var(--font-mono); font-size: 0.52rem; color: var(--red); border: 1px solid var(--red-border); padding: 0.2rem 0.5rem; letter-spacing: 2px; white-space: nowrap; }
-  .media-date { font-family: var(--font-mono); font-size: 0.58rem; color: var(--muted); letter-spacing: 2px; white-space: nowrap; }
-
+  .media-date { font-family: var(--font-mono); font-size: 0.58rem; color: #999; letter-spacing: 2px; white-space: nowrap; }
   .rize-companies { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
   .company-card { background: var(--bg3); border: 1px solid var(--red-border); padding: 1.8rem 1.6rem; position: relative; overflow: hidden; transition: border-color 0.2s; }
   .company-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--red); transform: scaleX(0); transition: transform 0.3s; }
@@ -126,38 +113,39 @@
   .company-label { font-family: var(--font-mono); font-size: 0.58rem; color: var(--red); letter-spacing: 3px; margin-bottom: 0.3rem; }
   .company-name { font-family: var(--font-display); font-size: 3rem; letter-spacing: 3px; color: #fff; line-height: 1; margin-bottom: 0.2rem; }
   .company-sub { font-family: var(--font-display); font-size: 1rem; letter-spacing: 3px; color: var(--red); margin-bottom: 1rem; }
-  .company-desc { font-size: 0.8rem; color: #fff; line-height: 1.7; }
-
+  .company-desc { font-size: 0.8rem; color: #ccc; line-height: 1.7; }
   .agency-box { background: var(--bg3); border: 1px solid var(--red-border); padding: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
   .agency-heading { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 3px; color: #fff; margin-bottom: 0.8rem; }
   .agency-heading span { color: var(--red); }
   .warning-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.58rem; color: var(--red); border: 1px solid var(--red); padding: 0.22rem 0.65rem; letter-spacing: 2px; margin-bottom: 1rem; }
-  .form-input { background: var(--bg); border: 1px solid rgba(255,255,255,0.08); color: #fff; padding: 0.65rem 0.9rem; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 1px; outline: none; transition: border-color 0.2s; width: 100%; }
+  .form-input { background: var(--bg); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 0.65rem 0.9rem; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 1px; outline: none; transition: border-color 0.2s; width: 100%; }
   .form-input:focus { border-color: var(--red); }
-  .form-input::placeholder { color: #333; }
+  .form-input::placeholder { color: #555; }
   .contact-form { display: flex; flex-direction: column; gap: 0.6rem; }
-
-  .articles-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--red-border); border: 1px solid var(--red-border); }
-  .article-item { background: var(--bg); padding: 1.4rem; text-decoration: none; display: block; transition: background 0.2s; }
-  .article-item:hover { background: var(--bg3); }
-  .article-num { font-family: var(--font-mono); font-size: 0.58rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.35rem; }
-  .article-title { font-size: 0.86rem; color: #fff; line-height: 1.5; margin-bottom: 0.35rem; }
-  .article-arrow { font-family: var(--font-mono); font-size: 0.64rem; color: var(--red); }
-
-  .books-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--red-border); border: 1px solid var(--red-border); }
-  .book-item { background: var(--bg); padding: 1.3rem 1.5rem; transition: background 0.2s; }
+  .articles-list { display: flex; flex-direction: column; gap: 1px; background: var(--red-border); border: 1px solid var(--red-border); }
+  .article-item { background: var(--bg); }
+  .article-header { display: flex; align-items: center; gap: 1rem; padding: 1.4rem 1.6rem; cursor: pointer; transition: background 0.2s; user-select: none; }
+  .article-header:hover { background: var(--bg3); }
+  .article-num { font-family: var(--font-mono); font-size: 0.58rem; color: var(--red); letter-spacing: 2px; flex-shrink: 0; }
+  .article-title { font-size: 0.9rem; color: #ddd; line-height: 1.5; flex: 1; }
+  .article-toggle { font-family: var(--font-mono); font-size: 0.62rem; color: var(--red); flex-shrink: 0; white-space: nowrap; display: flex; align-items: center; gap: 0.4rem; }
+  .article-toggle-icon { transition: transform 0.3s; display: inline-block; }
+  .article-item.open .article-toggle-icon { transform: rotate(45deg); }
+  .article-item.open .article-title { color: #fff; }
+  .article-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; padding: 0 1.6rem; font-size: 0.88rem; color: #bbb; line-height: 1.85; }
+  .article-item.open .article-body { max-height: 600px; padding: 1.2rem 1.6rem 1.6rem; border-top: 1px solid var(--red-border); }
+  .books-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--red-border); border: 1px solid var(--red-border); }
+  .book-item { background: var(--bg); padding: 1.2rem 1.3rem; transition: background 0.2s; }
   .book-item:hover { background: var(--bg3); }
-  .book-num { font-family: var(--font-mono); font-size: 0.56rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.25rem; }
-  .book-title { font-family: var(--font-display); font-size: 1rem; letter-spacing: 2px; color: #fff; margin-bottom: 0.25rem; line-height: 1.2; }
-  .book-note { font-size: 0.76rem; color: #aaa; line-height: 1.5; }
-
+  .book-num { font-family: var(--font-mono); font-size: 0.54rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.25rem; }
+  .book-title { font-family: var(--font-display); font-size: 0.95rem; letter-spacing: 2px; color: #fff; margin-bottom: 0.2rem; line-height: 1.2; }
+  .book-note { font-size: 0.72rem; color: #888; line-height: 1.5; font-style: italic; }
   .social-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--red-border); border: 1px solid var(--red-border); }
   .social-item { background: var(--bg); padding: 1.3rem 1.8rem; transition: background 0.2s; text-decoration: none; display: block; }
   .social-item:hover { background: var(--bg3); }
   .social-platform { font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 3px; color: #fff; margin-bottom: 0.15rem; }
   .social-since { font-family: var(--font-mono); font-size: 0.57rem; color: var(--red); letter-spacing: 2px; margin-bottom: 0.3rem; }
-  .social-note { font-size: 0.72rem; color: #fff; }
-
+  .social-note { font-size: 0.72rem; color: #ccc; }
   .timeline { position: relative; padding-left: 2rem; }
   .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--red), transparent); }
   .timeline-item { position: relative; padding: 0 0 2rem 2.5rem; opacity: 0; transform: translateX(-20px); transition: all 0.5s; }
@@ -165,20 +153,19 @@
   .timeline-dot { position: absolute; left: -5px; top: 6px; width: 9px; height: 9px; background: var(--red); }
   .timeline-year { font-family: var(--font-mono); font-size: 0.64rem; color: var(--red); letter-spacing: 3px; margin-bottom: 0.2rem; }
   .timeline-title { font-family: var(--font-display); font-size: 1.15rem; letter-spacing: 2px; color: #fff; margin-bottom: 0.2rem; }
-  .timeline-desc { font-size: 0.84rem; color: #fff; line-height: 1.6; }
-
+  .timeline-desc { font-size: 0.84rem; color: #ccc; line-height: 1.6; }
   footer { position: relative; z-index: 1; text-align: center; padding: 1.5rem; border-top: 1px solid var(--red-border); font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 2px; }
   footer a { color: var(--red); text-decoration: none; }
   footer a:hover { color: #fff; }
   a { color: inherit; }
-
   @media (max-width: 900px) {
     #landing { padding: 2rem; }
+    .inner { padding: 0 1.5rem; }
     .landing-stats-row { grid-template-columns: repeat(2, 1fr); }
-    .section-wrap { padding: 3rem 1.5rem; }
     .about-grid, .agency-box { grid-template-columns: 1fr; }
-    .rize-companies, .work-cards, .books-grid { grid-template-columns: 1fr; }
-    .articles-grid, .social-grid { grid-template-columns: 1fr; }
+    .rize-companies, .work-cards { grid-template-columns: 1fr; }
+    .books-grid { grid-template-columns: repeat(2, 1fr); }
+    .social-grid { grid-template-columns: 1fr; }
     .media-item { grid-template-columns: 1fr; }
     #side-nav, #side-trigger, #side-edge { display: none; }
     #top-nav { padding: 0.8rem 1.5rem; }
@@ -190,31 +177,21 @@
 <canvas id="matrix-canvas"></canvas>
 <div id="nav-hint"></div>
 <div id="top-nav-trigger"></div>
-
 <nav id="top-nav">
   <a href="#landing" class="top-nav-logo">COLIN STUCKERT</a>
   <ul class="top-nav-links">
-    <li><a href="#about">ABOUT</a></li>
-    <li><a href="#work">WORK</a></li>
-    <li><a href="#rize">RIZE</a></li>
-    <li><a href="#agency">AGENCY</a></li>
-    <li><a href="#writing">WRITING</a></li>
-    <li><a href="#books">BOOKS</a></li>
-    <li><a href="#social">FOLLOW</a></li>
-    <li><a href="#story">TIMELINE</a></li>
+    <li><a href="#about">ABOUT</a></li><li><a href="#work">WORK</a></li>
+    <li><a href="#rize">RIZE</a></li><li><a href="#agency">AGENCY</a></li>
+    <li><a href="#writing">WRITING</a></li><li><a href="#books">BOOKS</a></li>
+    <li><a href="#social">CONNECT</a></li><li><a href="#story">TIMELINE</a></li>
   </ul>
 </nav>
-
 <div id="side-trigger"></div>
 <div id="side-edge">
-  <div class="edge-dot" data-i="0"></div>
-  <div class="edge-dot" data-i="1"></div>
-  <div class="edge-dot" data-i="2"></div>
-  <div class="edge-dot" data-i="3"></div>
-  <div class="edge-dot" data-i="4"></div>
-  <div class="edge-dot" data-i="5"></div>
-  <div class="edge-dot" data-i="6"></div>
-  <div class="edge-dot" data-i="7"></div>
+  <div class="edge-dot" data-i="0"></div><div class="edge-dot" data-i="1"></div>
+  <div class="edge-dot" data-i="2"></div><div class="edge-dot" data-i="3"></div>
+  <div class="edge-dot" data-i="4"></div><div class="edge-dot" data-i="5"></div>
+  <div class="edge-dot" data-i="6"></div><div class="edge-dot" data-i="7"></div>
 </div>
 <nav id="side-nav">
   <button class="side-nav-btn" id="nav-up">▲ &nbsp;UP</button>
@@ -226,14 +203,13 @@
     <li><a href="#agency" class="side-nav-link" data-i="3"><span class="side-nav-num">04</span><span class="side-nav-label">AGENCY</span><span class="side-nav-dot"></span></a></li>
     <li><a href="#writing" class="side-nav-link" data-i="4"><span class="side-nav-num">05</span><span class="side-nav-label">WRITING</span><span class="side-nav-dot"></span></a></li>
     <li><a href="#books" class="side-nav-link" data-i="5"><span class="side-nav-num">06</span><span class="side-nav-label">BOOKS</span><span class="side-nav-dot"></span></a></li>
-    <li><a href="#social" class="side-nav-link" data-i="6"><span class="side-nav-num">07</span><span class="side-nav-label">FOLLOW</span><span class="side-nav-dot"></span></a></li>
+    <li><a href="#social" class="side-nav-link" data-i="6"><span class="side-nav-num">07</span><span class="side-nav-label">CONNECT</span><span class="side-nav-dot"></span></a></li>
     <li><a href="#story" class="side-nav-link" data-i="7"><span class="side-nav-num">08</span><span class="side-nav-label">TIMELINE</span><span class="side-nav-dot"></span></a></li>
   </ul>
   <div class="side-nav-divider"></div>
   <button class="side-nav-btn" id="nav-down">▼ &nbsp;DOWN</button>
 </nav>
 
-<!-- LANDING -->
 <div id="landing">
   <div class="landing-header">
     <div class="site-name">COLIN<br><span>STUCKERT</span></div>
@@ -246,7 +222,7 @@
     <li><a href="#agency"><span class="toc-num">04</span><span class="toc-title">AGENCY</span><span class="toc-desc">Work with me</span><span class="toc-arrow">→</span></a></li>
     <li><a href="#writing"><span class="toc-num">05</span><span class="toc-title">WRITING</span><span class="toc-desc">Evergreen reads</span><span class="toc-arrow">→</span></a></li>
     <li><a href="#books"><span class="toc-num">06</span><span class="toc-title">BOOKS</span><span class="toc-desc">Reading list</span><span class="toc-arrow">→</span></a></li>
-    <li><a href="#social"><span class="toc-num">07</span><span class="toc-title">FOLLOW</span><span class="toc-desc">Socials</span><span class="toc-arrow">→</span></a></li>
+    <li><a href="#social"><span class="toc-num">07</span><span class="toc-title">CONNECT</span><span class="toc-desc">Socials</span><span class="toc-arrow">→</span></a></li>
     <li><a href="#story"><span class="toc-num">08</span><span class="toc-title">TIMELINE</span><span class="toc-desc">Origin story</span><span class="toc-arrow">→</span></a></li>
   </ul>
   <div class="landing-stats-row">
@@ -266,15 +242,13 @@
   </div>
 </div>
 
-<!-- ABOUT -->
 <div class="section-wrap" id="about"><div class="inner">
   <p class="section-label">// 01 · ABOUT</p>
   <h2 class="section-title">FOUNDER.<br>OPERATOR.<br><span>OBSESSED.</span></h2>
   <div class="divider"></div>
   <div class="about-grid">
     <div class="about-text">
-      <p>I've spent my career launching things from scratch. It's incredible how creative you can be when you have to be.</p>
-      <p>Today I run <a href="#rize" style="color:var(--red);text-decoration:none;">Rize Brands</a>, my e-commerce holding company and creative agency. I'm also CEO of <a href="https://wildfoods.co" target="_blank" style="color:var(--red);text-decoration:none;">Wild Foods</a> and <a href="https://carnivorebar.com" target="_blank" style="color:var(--red);text-decoration:none;">Carnivore Bar</a>.</p>
+      <p>I run <a href="#rize" style="color:var(--red);text-decoration:none;">Rize Brands</a>, my e-commerce holding company and creative agency. I'm also CEO of <a href="https://wildfoods.co" target="_blank" style="color:var(--red);text-decoration:none;">Wild Foods</a> and <a href="https://carnivorebar.com" target="_blank" style="color:var(--red);text-decoration:none;">Carnivore Bar</a>.</p>
       <p>I write the Better Human newsletter to help you win in the AI age.</p>
       <p>I also yap on socials. Links below.</p>
     </div>
@@ -287,35 +261,28 @@
   </div>
 </div></div>
 
-<!-- WORK -->
 <div class="section-wrap alt" id="work"><div class="inner">
   <p class="section-label">// 02 · WORK</p>
   <h2 class="section-title">WHAT I<br><span>RUN</span></h2>
   <div class="divider"></div>
   <div class="work-cards">
     <a href="https://wildfoods.co" target="_blank" class="work-card">
-      <div class="work-card-tag">// STANDALONE COMPANY</div>
-      <div class="work-card-name">WILD FOODS</div>
-      <div class="work-card-role">FOUNDER / CEO</div>
+      <div class="work-card-name">WILD FOODS</div><div class="work-card-role">FOUNDER / CEO</div>
       <div class="work-card-desc">Premium e-commerce food and supplement brand. Built from an Austin apartment. 2 exits, 2 acquisitions — including buying it back from a failed PE fund and 4X'ing revenue in 16 months.</div>
       <div class="work-card-date">2015 – CURRENT &nbsp;·&nbsp; <span style="color:var(--red);">2 EXITS · 2 ACQS</span></div>
     </a>
     <a href="https://carnivorebar.com" target="_blank" class="work-card">
-      <div class="work-card-tag">// STANDALONE COMPANY</div>
-      <div class="work-card-name">CARNIVORE BAR</div>
-      <div class="work-card-role">CEO</div>
+      <div class="work-card-name">CARNIVORE BAR</div><div class="work-card-role">CEO</div>
       <div class="work-card-desc">The original meat bar. Clean ingredients, no fillers. Built for the carnivore and ancestral health community.</div>
       <div class="work-card-date">JAN 2026 – CURRENT</div>
     </a>
     <a href="#rize" class="work-card">
-      <div class="work-card-tag">// MY COMPANY</div>
-      <div class="work-card-name">RIZE BRANDS</div>
-      <div class="work-card-role">OWNER</div>
+      <div class="work-card-name">RIZE BRANDS</div><div class="work-card-role">OWNER</div>
       <div class="work-card-desc">My brands, my agency, my capital arm. We work with only a few clients at a time.</div>
       <div class="work-card-date">2023 – CURRENT</div>
     </a>
   </div>
-  <div style="font-family:var(--font-mono);font-size:0.58rem;color:var(--muted);letter-spacing:3px;margin-bottom:1rem;">// CONTENT & MEDIA</div>
+  <div style="font-family:var(--font-mono);font-size:0.58rem;color:#999;letter-spacing:3px;margin-bottom:1rem;">// CONTENT & MEDIA</div>
   <div class="media-grid">
     <a href="https://betterhumans.substack.com" target="_blank" class="media-item">
       <div><div class="media-name">BETTER HUMAN</div><div class="media-role">NEWSLETTER · FOUNDER</div><div class="media-desc">Helping you win in the AI age.</div></div>
@@ -332,12 +299,11 @@
   </div>
 </div></div>
 
-<!-- RIZE -->
 <div class="section-wrap" id="rize"><div class="inner">
   <p class="section-label">// 03 · MY COMPANY</p>
   <h2 class="section-title">RIZE<br><span>BRANDS</span></h2>
   <div class="divider"></div>
-  <p style="color:#fff;font-size:0.88rem;max-width:600px;margin-bottom:2.5rem;line-height:1.8;">My brands, my agency, my capital arm. We work with only a few clients at a time.</p>
+  <p style="color:#ddd;font-size:0.88rem;max-width:600px;margin-bottom:2.5rem;line-height:1.8;">My brands, my agency, my capital arm. We work with only a few clients at a time.</p>
   <div class="rize-companies">
     <div class="company-card"><div class="company-label">// RIZE</div><div class="company-name">HOLD CO</div><div class="company-sub">MY BRANDS</div><div class="company-desc">Where I launch, acquire, and operate consumer brands.</div></div>
     <div class="company-card"><div class="company-label">// RIZE</div><div class="company-name">CREATIVE</div><div class="company-sub">AI AGENCY</div><div class="company-desc">AI-powered brand building.</div></div>
@@ -345,7 +311,6 @@
   </div>
 </div></div>
 
-<!-- AGENCY -->
 <div class="section-wrap alt" id="agency"><div class="inner">
   <p class="section-label">// 04 · AGENCY</p>
   <h2 class="section-title">WORK WITH<br><span>RIZE CREATIVE</span></h2>
@@ -354,13 +319,13 @@
     <div>
       <div class="warning-tag">⚡ VERY LIMITED AVAILABILITY</div>
       <h3 class="agency-heading">WE LAUNCH &<br><span>SCALE BRANDS.</span></h3>
-      <p style="font-size:0.84rem;color:#fff;line-height:1.8;margin-bottom:0.8rem;">We take on a small number of clients per year. Strategy, AI systems, growth execution. We build alongside you.</p>
-      <p style="font-size:0.84rem;color:#fff;line-height:1.8;margin-bottom:0.8rem;">$500K to $5M in e-commerce revenue? Let's talk.</p>
+      <p style="font-size:0.84rem;color:#ccc;line-height:1.8;margin-bottom:0.8rem;">We take on a small number of clients per year. Strategy, AI systems, growth execution. We build alongside you.</p>
+      <p style="font-size:0.84rem;color:#ccc;line-height:1.8;margin-bottom:0.8rem;">$500K to $5M in e-commerce revenue? Let's talk.</p>
       <div style="display:flex;flex-direction:column;gap:0.35rem;margin-top:0.6rem;">
-        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#fff;">→ &nbsp;Brand launch strategy</div>
-        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#fff;">→ &nbsp;AI-powered creative systems</div>
-        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#fff;">→ &nbsp;E-commerce growth operations</div>
-        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#fff;">→ &nbsp;Capital strategy and introductions</div>
+        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#ccc;">→ &nbsp;Brand launch strategy</div>
+        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#ccc;">→ &nbsp;AI-powered creative systems</div>
+        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#ccc;">→ &nbsp;E-commerce growth operations</div>
+        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#ccc;">→ &nbsp;Capital strategy and introductions</div>
       </div>
     </div>
     <div class="contact-form" id="agencyForm">
@@ -375,47 +340,99 @@
   </div>
 </div></div>
 
-<!-- WRITING -->
 <div class="section-wrap" id="writing"><div class="inner">
   <p class="section-label">// 05 · WRITING</p>
   <h2 class="section-title">EVERGREEN<br><span>READS</span></h2>
   <div class="divider"></div>
-  <div class="articles-grid">
-    <a href="articles/assets-vs-income-ai-age.html" class="article-item"><div class="article-num">// 001</div><div class="article-title">Why Owning Assets Beats Earning Income in the Age of AI</div><div class="article-arrow">READ →</div></a>
-    <a href="articles/moat-framework.html" class="article-item"><div class="article-num">// 002</div><div class="article-title">The Moat Framework: Building Businesses That Are Hard to Kill</div><div class="article-arrow">READ →</div></a>
-    <a href="articles/4x-revenue-after-pe.html" class="article-item"><div class="article-num">// 003</div><div class="article-title">How to 4X Revenue After a PE Group Destroys Your Company</div><div class="article-arrow">READ →</div></a>
-    <a href="articles/zero-to-3m-ecommerce.html" class="article-item"><div class="article-num">// 004</div><div class="article-title">Zero to $3M: What E-Commerce Actually Looks Like</div><div class="article-arrow">READ →</div></a>
-    <a href="articles/ai-agents-are-here.html" class="article-item"><div class="article-num">// 005</div><div class="article-title">AI Agents Aren't Coming. They're Here. Here's How to Use Them.</div><div class="article-arrow">READ →</div></a>
-    <a href="articles/metrics-that-matter.html" class="article-item"><div class="article-num">// 006</div><div class="article-title">The Only Metrics That Matter for a Consumer Brand</div><div class="article-arrow">READ →</div></a>
-    <a href="articles/selling-to-pe.html" class="article-item"><div class="article-num">// 007</div><div class="article-title">Selling to PE: What They Don't Tell You Before You Sign</div><div class="article-arrow">READ →</div></a>
-    <a href="articles/operators-edge.html" class="article-item"><div class="article-num">// 008</div><div class="article-title">The Operator's Edge: How Systems Beat Hustle Every Time</div><div class="article-arrow">READ →</div></a>
-    <a href="articles/dropout-poker-win.html" class="article-item"><div class="article-num">// 009</div><div class="article-title">Why I Dropped Out, Played Poker, and Still Won</div><div class="article-arrow">READ →</div></a>
-    <a href="articles/deal-club-loyalty.html" class="article-item"><div class="article-num">// 010</div><div class="article-title">Deal Club: How to Build Loyalty Programs That Actually Work</div><div class="article-arrow">READ →</div></a>
+  <div class="articles-list">
+    <div class="article-item">
+      <div class="article-header" onclick="toggleArticle(this)">
+        <span class="article-num">// 001</span>
+        <span class="article-title">Why Owning Assets Beats Earning Income in the Age of AI</span>
+        <span class="article-toggle"><span class="article-toggle-icon">+</span> READ</span>
+      </div>
+      <div class="article-body">
+        <p>The industrial age rewarded labor. The information age rewarded skills. The AI age will reward ownership.</p>
+        <p style="margin-top:0.8rem;">When AI can do most cognitive work cheaper and faster than humans, your salary becomes a commodity. What doesn't become a commodity? The assets you own. The systems you've built. The brands, the audiences, the equity.</p>
+        <p style="margin-top:0.8rem;">The shift is already happening. The people winning in the next decade won't be the ones with the most impressive résumés — they'll be the ones who figured out how to own things while everyone else was busy being employed. Build assets. Not just skills.</p>
+      </div>
+    </div>
+    <div class="article-item">
+      <div class="article-header" onclick="toggleArticle(this)">
+        <span class="article-num">// 002</span>
+        <span class="article-title">The Moat Framework: Building Businesses That Are Hard to Kill</span>
+        <span class="article-toggle"><span class="article-toggle-icon">+</span> READ</span>
+      </div>
+      <div class="article-body">
+        <p>A moat is anything that makes your business harder to compete with over time. Most businesses have no moat. They're just doing a thing until someone does it cheaper.</p>
+        <p style="margin-top:0.8rem;">Real moats are built from a few things: brand trust that compounds, proprietary relationships, community that belongs to you (not a platform), unique product formulation, and operational systems that are genuinely hard to replicate.</p>
+        <p style="margin-top:0.8rem;">The question to ask about every decision in your business: does this widen the moat, or does it just grow revenue? Revenue without moat is a treadmill. Moat is what you actually own.</p>
+      </div>
+    </div>
+    <div class="article-item">
+      <div class="article-header" onclick="toggleArticle(this)">
+        <span class="article-num">// 003</span>
+        <span class="article-title">How to 4X Revenue After a PE Group Destroys Your Company</span>
+        <span class="article-toggle"><span class="article-toggle-icon">+</span> READ</span>
+      </div>
+      <div class="article-body">
+        <p>In 2019, I sold 51% of Wild Foods to a PE group. It was a mistake — not the sale, but who I sold to. Over the next two years they made a series of decisions that systematically damaged the brand, the team, and the customer relationships I'd spent years building.</p>
+        <p style="margin-top:0.8rem;">When their fund collapsed in 2022, I bought it back for pennies. What followed was 16 months of fixing. Rebuilding trust with customers. Cutting what didn't work. Doubling down on what did.</p>
+        <p style="margin-top:0.8rem;">We 4X'd gross revenue in those 16 months. The lesson wasn't about tactics — it was about ownership clarity, speed of decision-making, and what's possible when you stop managing politics and just operate.</p>
+      </div>
+    </div>
+    <div class="article-item">
+      <div class="article-header" onclick="toggleArticle(this)">
+        <span class="article-num">// 004</span>
+        <span class="article-title">The Operator's Edge: How Systems Beat Hustle Every Time</span>
+        <span class="article-toggle"><span class="article-toggle-icon">+</span> READ</span>
+      </div>
+      <div class="article-body">
+        <p>Hustle culture sold a lie: that working harder is how you win. It's not. Working harder without systems just means you burn out faster while your competitors with better systems outscale you.</p>
+        <p style="margin-top:0.8rem;">An operator's edge is systems thinking. Every time you do something twice, you document it. Every bottleneck you identify becomes a project. Every repetitive task is a candidate for automation.</p>
+        <p style="margin-top:0.8rem;">The AI era makes this more important, not less. The founders who win will be the ones who figure out how to run more with less — not by grinding harder, but by building better machines.</p>
+      </div>
+    </div>
   </div>
 </div></div>
 
-<!-- BOOKS -->
 <div class="section-wrap alt" id="books"><div class="inner">
   <p class="section-label">// 06 · READING LIST</p>
   <h2 class="section-title">BOOKS THAT<br><span>HIT DIFFERENT</span></h2>
   <div class="divider"></div>
   <div class="books-grid">
-    <div class="book-item"><div class="book-num">// 001</div><div class="book-title">RED RISING SERIES</div><div class="book-note">Pierce Brown. My son is named after the main character. That's all you need to know.</div></div>
-    <div class="book-item"><div class="book-num">// 002</div><div class="book-title">THE ART OF LIVING</div><div class="book-note">Sharon Lebell. One of my first books on Stoicism. Such a damn fine read.</div></div>
-    <div class="book-item"><div class="book-num">// 003</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
-    <div class="book-item"><div class="book-num">// 004</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
-    <div class="book-item"><div class="book-num">// 005</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
-    <div class="book-item"><div class="book-num">// 006</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
-    <div class="book-item"><div class="book-num">// 007</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
-    <div class="book-item"><div class="book-num">// 008</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
-    <div class="book-item"><div class="book-num">// 009</div><div class="book-title">PLACEHOLDER</div><div class="book-note">Coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 001</div><div class="book-title">RED RISING SERIES</div><div class="book-note">Pierce Brown. My son is named after the main character. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 002</div><div class="book-title">THE ART OF LIVING</div><div class="book-note">Sharon Lebell. One of my first books on Stoicism. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 003</div><div class="book-title">DAEMON</div><div class="book-note">Daniel Suarez. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 004</div><div class="book-title">SEX AT DAWN</div><div class="book-note">Christopher Ryan. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 005</div><div class="book-title">ANTIFRAGILE</div><div class="book-note">Nassim Taleb. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 006</div><div class="book-title">GUNS, GERMS & STEEL</div><div class="book-note">Jared Diamond. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 007</div><div class="book-title">EXTREME OWNERSHIP</div><div class="book-note">Jocko Willink. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 008</div><div class="book-title">CHANGE AGENT</div><div class="book-note">Daniel Suarez. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 009</div><div class="book-title">READY PLAYER ONE</div><div class="book-note">Ernest Cline. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 010</div><div class="book-title">DEEP WORK</div><div class="book-note">Cal Newport. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 011</div><div class="book-title">THE MIDNIGHT LIBRARY</div><div class="book-note">Matt Haig. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 012</div><div class="book-title">ALMANACK OF NAVAL RAVIKANT</div><div class="book-note">Eric Jorgenson. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 013</div><div class="book-title">THE WALL SPEAKS</div><div class="book-note">My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 014</div><div class="book-title">THE WILD OF THE MANY</div><div class="book-note">My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 015</div><div class="book-title">THE SLIGHT EDGE</div><div class="book-note">Jeff Olson. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 016</div><div class="book-title">THE WAR OF ART</div><div class="book-note">Steven Pressfield. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 017</div><div class="book-title">FOOLED BY RANDOMNESS</div><div class="book-note">Nassim Taleb. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 018</div><div class="book-title">NEVER SPLIT THE DIFFERENCE</div><div class="book-note">Chris Voss. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 019</div><div class="book-title">DIGITAL GOLD</div><div class="book-note">Nathaniel Popper. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 020</div><div class="book-title">MASTERY</div><div class="book-note">Robert Greene. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 021</div><div class="book-title">48 LAWS OF POWER</div><div class="book-note">Robert Greene. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 022</div><div class="book-title">THE REST OF ROBERT GREENE</div><div class="book-note">All of it. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 023</div><div class="book-title">ESSENTIALISM</div><div class="book-note">Greg McKeown. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 024</div><div class="book-title">SKIN IN THE GAME</div><div class="book-note">Nassim Taleb. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 025</div><div class="book-title">THE FISH THAT ATE THE WHALE</div><div class="book-note">Rich Cohen. My thoughts coming soon.</div></div>
+    <div class="book-item"><div class="book-num">// 026</div><div class="book-title">TRIBE</div><div class="book-note">Sebastian Junger. My thoughts coming soon.</div></div>
   </div>
 </div></div>
 
-<!-- SOCIAL -->
 <div class="section-wrap" id="social"><div class="inner">
-  <p class="section-label">// 07 · FOLLOW THE BUILD</p>
-  <h2 class="section-title">STAY IN<br><span>THE LOOP</span></h2>
+  <p class="section-label">// 07 · CONNECT</p>
+  <h2 class="section-title">LET'S<br><span>CONNECT</span></h2>
   <div class="divider"></div>
   <div class="social-grid">
     <a href="https://www.linkedin.com/in/colinstuckert" target="_blank" class="social-item"><div class="social-platform">LINKEDIN</div><div class="social-since">// SINCE ~2024</div><div class="social-note">Relatively new. Staying as long as it stays useful.</div></a>
@@ -427,7 +444,6 @@
   </div>
 </div></div>
 
-<!-- TIMELINE -->
 <div class="section-wrap alt" id="story"><div class="inner">
   <p class="section-label">// 08 · ORIGIN STORY</p>
   <h2 class="section-title">THE<br><span>TIMELINE</span></h2>
@@ -470,10 +486,8 @@ function drawMatrix() {
   }
 }
 setInterval(drawMatrix, 50);
-
 const tlObs = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.1 });
 document.querySelectorAll('.timeline-item').forEach(el => tlObs.observe(el));
-
 const topNav = document.getElementById('top-nav');
 const trigger = document.getElementById('top-nav-trigger');
 const navHint = document.getElementById('nav-hint');
@@ -481,7 +495,6 @@ let navTimeout;
 function showTopNav() { clearTimeout(navTimeout); topNav.classList.add('visible'); }
 function hideTopNav() { navTimeout = setTimeout(() => topNav.classList.remove('visible'), 700); }
 [trigger, topNav, navHint].forEach(el => { el.addEventListener('mouseenter', showTopNav); el.addEventListener('mouseleave', hideTopNav); });
-
 const sideNav = document.getElementById('side-nav');
 const sideTrigger = document.getElementById('side-trigger');
 const sideEdge = document.getElementById('side-edge');
@@ -489,23 +502,15 @@ const sideLinks = document.querySelectorAll('.side-nav-link');
 const edgeDots = document.querySelectorAll('.edge-dot');
 const sectionIds = ['about','work','rize','agency','writing','books','social','story'];
 const sectionEls = sectionIds.map(id => document.getElementById(id));
-let currentIdx = 0;
-let sideHideTimeout;
-
+let currentIdx = 0, sideHideTimeout;
 function openSideNav() { clearTimeout(sideHideTimeout); sideNav.classList.add('open'); }
 function closeSideNav() { sideHideTimeout = setTimeout(() => sideNav.classList.remove('open'), 350); }
 sideTrigger.addEventListener('mouseenter', openSideNav);
 sideNav.addEventListener('mouseenter', openSideNav);
 sideTrigger.addEventListener('mouseleave', closeSideNav);
 sideNav.addEventListener('mouseleave', closeSideNav);
-
-document.getElementById('nav-up').addEventListener('click', () => {
-  sectionEls[Math.max(0, currentIdx - 1)].scrollIntoView({ behavior: 'smooth' });
-});
-document.getElementById('nav-down').addEventListener('click', () => {
-  sectionEls[Math.min(sectionEls.length - 1, currentIdx + 1)].scrollIntoView({ behavior: 'smooth' });
-});
-
+document.getElementById('nav-up').addEventListener('click', () => sectionEls[Math.max(0, currentIdx - 1)].scrollIntoView({ behavior: 'smooth' }));
+document.getElementById('nav-down').addEventListener('click', () => sectionEls[Math.min(sectionEls.length - 1, currentIdx + 1)].scrollIntoView({ behavior: 'smooth' }));
 window.addEventListener('scroll', () => {
   const scrolled = window.scrollY > document.getElementById('landing').offsetHeight * 0.5;
   sideEdge.classList.toggle('visible', scrolled);
@@ -516,7 +521,12 @@ window.addEventListener('scroll', () => {
   sideLinks.forEach(l => l.classList.toggle('active', parseInt(l.dataset.i) === idx));
   edgeDots.forEach(d => d.classList.toggle('active', parseInt(d.dataset.i) === idx));
 });
-
+function toggleArticle(header) {
+  const item = header.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.article-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
 function submitForm() {
   const n = document.getElementById('aName').value;
   if (!n.trim()) { document.getElementById('aName').focus(); return; }

@@ -50,30 +50,35 @@
   .side-nav-link.active .side-nav-label { color: var(--red); }
   .side-nav-link.active .side-nav-dot { background: var(--red); }
   .side-nav-link.active .side-nav-num { color: var(--red); }
-  #landing { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 5rem; max-width: 1200px; margin: 0 auto; width: 100%; }
+  #landing { position: relative; z-index: 1; min-height: 100vh; display: flex; align-items: center; padding: 5rem; max-width: 1200px; margin: 0 auto; width: 100%; gap: 0; }
+  .landing-left { flex: 1; min-width: 0; padding-right: 4rem; }
+  .landing-right { flex: 1; min-width: 0; display: flex; flex-direction: row; gap: 0; border-left: 1px solid var(--red-border); padding-left: 3rem; }
+  /* Stats col — left side of right panel */
+  .landing-stats-col { flex: 1; min-width: 0; display: flex; flex-direction: column; border-top: 1px solid var(--red-border); padding-right: 2rem; }
+  /* Links col — right side of right panel */
+  .landing-ctas { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.35rem; border-left: 1px solid var(--red-border); padding-left: 2rem; padding-top: 0.2rem; }
   .landing-header { margin-bottom: 2.5rem; }
   .site-name { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4.5rem); letter-spacing: 4px; color: #fff; line-height: 1; margin-bottom: 0.3rem; }
   .site-name span { color: var(--red); }
   .site-tagline { font-family: var(--font-mono); font-size: 0.78rem; color: #ccc; letter-spacing: 3px; }
-  .toc-list { list-style: none; display: flex; flex-direction: column; max-width: 680px; }
+  .toc-list { list-style: none; display: flex; flex-direction: column; }
   .toc-list li { border-top: 1px solid rgba(255,255,255,0.06); }
   .toc-list li:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
-  .toc-list a { display: flex; align-items: center; gap: 1.2rem; padding: 0.5rem 0; text-decoration: none; transition: all 0.2s; }
+  .toc-list a { display: flex; align-items: center; gap: 1.2rem; padding: 0.55rem 0; text-decoration: none; transition: all 0.2s; }
   .toc-list a:hover .toc-num { color: #fff; }
   .toc-list a:hover .toc-title { color: #fff; }
   .toc-list a:hover .toc-arrow { opacity: 1; transform: translateX(0); }
-  .toc-num { font-family: var(--font-mono); font-size: 0.6rem; color: #444; letter-spacing: 2px; width: 24px; flex-shrink: 0; transition: color 0.2s; }
-  .toc-title { font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 3px; color: var(--red); flex: 1; transition: color 0.2s; }
-  .toc-desc { font-family: var(--font-mono); font-size: 0.62rem; color: #444; letter-spacing: 1px; flex-shrink: 0; }
-  .toc-arrow { font-family: var(--font-mono); font-size: 0.6rem; color: #fff; opacity: 0; transform: translateX(-6px); transition: all 0.2s; }
-  .landing-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--red-border); border-bottom: 1px solid var(--red-border); margin-top: 2.5rem; max-width: 680px; }
-  .landing-stat { padding: 1.2rem 0; border-right: 1px solid var(--red-border); }
-  .landing-stat:last-child { border-right: none; }
-  .landing-stat-num { font-family: var(--font-display); font-size: 2rem; color: var(--red); letter-spacing: 2px; line-height: 1; }
-  .landing-stat-label { font-family: var(--font-mono); font-size: 0.6rem; color: #bbb; letter-spacing: 1.5px; margin-top: 0.15rem; line-height: 1.4; }
-  .landing-ctas { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 1.5rem; max-width: 680px; }
-  .landing-cta { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 2px; color: var(--red); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 0.35rem; }
-  .landing-cta::before { content: '→'; font-size: 0.58rem; }
+  .toc-num { font-family: var(--font-mono); font-size: 0.7rem; color: #555; letter-spacing: 2px; width: 28px; flex-shrink: 0; transition: color 0.2s; }
+  .toc-title { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 3px; color: var(--red); flex: 1; transition: color 0.2s; }
+  .toc-desc { font-family: var(--font-mono); font-size: 0.72rem; color: #888; letter-spacing: 1px; flex-shrink: 0; }
+  .toc-arrow { font-family: var(--font-mono); font-size: 0.7rem; color: #fff; opacity: 0; transform: translateX(-6px); transition: all 0.2s; }
+  /* Stats stacked vertically on right */
+  .landing-stats-col { display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--red-border); }
+  .landing-stat { padding: 0.8rem 0; border-bottom: 1px solid var(--red-border); }
+  .landing-stat-num { font-family: var(--font-display); font-size: 1.6rem; color: var(--red); letter-spacing: 2px; line-height: 1; }
+  .landing-stat-label { font-family: var(--font-mono); font-size: 0.62rem; color: #bbb; letter-spacing: 1.5px; margin-top: 0.1rem; line-height: 1.4; }
+  .landing-cta { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 1.5px; color: var(--red); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 0.35rem; }
+  .landing-cta::before { content: '→'; font-size: 0.66rem; }
   .landing-cta:hover { color: #fff; }
   .section-wrap { position: relative; z-index: 1; padding: 4rem 0; }
   .section-wrap.alt { background: var(--bg2); }
@@ -159,9 +164,12 @@
   footer a:hover { color: #fff; }
   a { color: inherit; }
   @media (max-width: 900px) {
-    #landing { padding: 2rem; }
+    #landing { padding: 2rem; flex-direction: column; align-items: flex-start; gap: 2rem; }
+    .landing-left { padding-right: 0; }
+    .landing-right { width: 100%; border-left: none; padding-left: 0; border-top: 1px solid var(--red-border); padding-top: 1.5rem; flex-direction: column; gap: 1.5rem; }
+    .landing-stats-col { padding-right: 0; border-right: none; }
+    .landing-ctas { border-left: none; padding-left: 0; }
     .inner { padding: 0 1.5rem; }
-    .landing-stats-row { grid-template-columns: repeat(2, 1fr); }
     .about-grid, .agency-box { grid-template-columns: 1fr; }
     .rize-companies, .work-cards { grid-template-columns: 1fr; }
     .books-grid { grid-template-columns: repeat(2, 1fr); }
@@ -211,34 +219,44 @@
 </nav>
 
 <div id="landing">
-  <div class="landing-header">
-    <div class="site-name">COLIN<br><span>STUCKERT</span></div>
-    <div class="site-tagline">// FOUNDER · OPERATOR · BUILDER</div>
+  <!-- LEFT: name + TOC -->
+  <div class="landing-left">
+    <div class="landing-header">
+      <div class="site-name">COLIN<br><span>STUCKERT</span></div>
+      <div class="site-tagline">// FOUNDER · OPERATOR · BUILDER</div>
+    </div>
+    <ul class="toc-list">
+      <li><a href="#about"><span class="toc-num">01</span><span class="toc-title">ABOUT</span><span class="toc-desc">Who I am</span><span class="toc-arrow">→</span></a></li>
+      <li><a href="#work"><span class="toc-num">02</span><span class="toc-title">WORK</span><span class="toc-desc">What I run</span><span class="toc-arrow">→</span></a></li>
+      <li><a href="#rize"><span class="toc-num">03</span><span class="toc-title">RIZE BRANDS</span><span class="toc-desc">My company</span><span class="toc-arrow">→</span></a></li>
+      <li><a href="#agency"><span class="toc-num">04</span><span class="toc-title">AGENCY</span><span class="toc-desc">Work with me</span><span class="toc-arrow">→</span></a></li>
+      <li><a href="#writing"><span class="toc-num">05</span><span class="toc-title">WRITING</span><span class="toc-desc">Evergreen reads</span><span class="toc-arrow">→</span></a></li>
+      <li><a href="#books"><span class="toc-num">06</span><span class="toc-title">BOOKS</span><span class="toc-desc">Reading list</span><span class="toc-arrow">→</span></a></li>
+      <li><a href="#social"><span class="toc-num">07</span><span class="toc-title">CONNECT</span><span class="toc-desc">Socials</span><span class="toc-arrow">→</span></a></li>
+      <li><a href="#story"><span class="toc-num">08</span><span class="toc-title">TIMELINE</span><span class="toc-desc">Origin story</span><span class="toc-arrow">→</span></a></li>
+    </ul>
   </div>
-  <ul class="toc-list">
-    <li><a href="#about"><span class="toc-num">01</span><span class="toc-title">ABOUT</span><span class="toc-desc">Who I am</span><span class="toc-arrow">→</span></a></li>
-    <li><a href="#work"><span class="toc-num">02</span><span class="toc-title">WORK</span><span class="toc-desc">What I run</span><span class="toc-arrow">→</span></a></li>
-    <li><a href="#rize"><span class="toc-num">03</span><span class="toc-title">RIZE BRANDS</span><span class="toc-desc">My company</span><span class="toc-arrow">→</span></a></li>
-    <li><a href="#agency"><span class="toc-num">04</span><span class="toc-title">AGENCY</span><span class="toc-desc">Work with me</span><span class="toc-arrow">→</span></a></li>
-    <li><a href="#writing"><span class="toc-num">05</span><span class="toc-title">WRITING</span><span class="toc-desc">Evergreen reads</span><span class="toc-arrow">→</span></a></li>
-    <li><a href="#books"><span class="toc-num">06</span><span class="toc-title">BOOKS</span><span class="toc-desc">Reading list</span><span class="toc-arrow">→</span></a></li>
-    <li><a href="#social"><span class="toc-num">07</span><span class="toc-title">CONNECT</span><span class="toc-desc">Socials</span><span class="toc-arrow">→</span></a></li>
-    <li><a href="#story"><span class="toc-num">08</span><span class="toc-title">TIMELINE</span><span class="toc-desc">Origin story</span><span class="toc-arrow">→</span></a></li>
-  </ul>
-  <div class="landing-stats-row">
-    <div class="landing-stat"><div class="landing-stat-num">22 YRS</div><div class="landing-stat-label">WORKING FOR MYSELF</div></div>
-    <div class="landing-stat"><div class="landing-stat-num">5</div><div class="landing-stat-label">EXITS · 2 ACQS</div></div>
-    <div class="landing-stat"><div class="landing-stat-num">$50M+</div><div class="landing-stat-label">REVENUE ONLINE</div></div>
-    <div class="landing-stat"><div class="landing-stat-num">12 YRS</div><div class="landing-stat-label">IN E-COMMERCE</div></div>
-  </div>
-  <div class="landing-ctas">
-    <a href="https://wildfoods.co" target="_blank" class="landing-cta">wildfoods.co</a>
-    <a href="https://carnivorebar.com" target="_blank" class="landing-cta">carnivorebar.com</a>
-    <a href="https://betterhumans.substack.com" target="_blank" class="landing-cta">better human newsletter</a>
-    <a href="https://x.com/colinstuckert" target="_blank" class="landing-cta">@colinstuckert on x</a>
-    <a href="https://instagram.com/colinstuckert" target="_blank" class="landing-cta">@colinstuckert on instagram</a>
-    <a href="https://www.linkedin.com/in/colin-stuckert-82b650173/" target="_blank" class="landing-cta">linkedin</a>
-    <a href="https://www.youtube.com/@ColinStuckert" target="_blank" class="landing-cta">youtube</a>
+  <!-- RIGHT: stats + links -->
+  <div class="landing-right">
+    <div class="landing-stats-col">
+      <div class="landing-stat"><div class="landing-stat-num">22 YRS</div><div class="landing-stat-label">WORKING FOR MYSELF</div></div>
+      <div class="landing-stat"><div class="landing-stat-num">5</div><div class="landing-stat-label">EXITS · 2 ACQS</div></div>
+      <div class="landing-stat"><div class="landing-stat-num">$50M+</div><div class="landing-stat-label">REVENUE ONLINE</div></div>
+      <div class="landing-stat"><div class="landing-stat-num">12 YRS</div><div class="landing-stat-label">IN E-COMMERCE</div></div>
+      <div class="landing-stat"><div class="landing-stat-num">DAD OF 3</div><div class="landing-stat-label">FL &amp; THE CAROLINAS</div></div>
+      <div class="landing-stat"><div class="landing-stat-num">FREE MARKET</div><div class="landing-stat-label">CAPITALIST</div></div>
+      <div class="landing-stat"><div class="landing-stat-num">BITCOIN</div><div class="landing-stat-label">MAXIMALIST</div></div>
+    </div>
+    <div class="landing-ctas">
+      <a href="https://wildfoods.co" target="_blank" class="landing-cta">wildfoods.co</a>
+      <a href="https://carnivorebar.com" target="_blank" class="landing-cta">carnivorebar.com</a>
+      <a href="https://betterhumans.substack.com" target="_blank" class="landing-cta">better human newsletter</a>
+      <a href="https://x.com/colinstuckert" target="_blank" class="landing-cta">@colinstuckert on x</a>
+      <a href="https://instagram.com/colinstuckert" target="_blank" class="landing-cta">@colinstuckert on instagram</a>
+      <a href="https://www.linkedin.com/in/colin-stuckert-82b650173/" target="_blank" class="landing-cta">linkedin</a>
+      <a href="https://www.youtube.com/@ColinStuckert" target="_blank" class="landing-cta">youtube</a>
+      <a href="https://www.tiktok.com/@colinstuckert" target="_blank" class="landing-cta">tiktok</a>
+    </div>
   </div>
 </div>
 
@@ -330,12 +348,11 @@
     </div>
     <div class="contact-form" id="agencyForm">
       <input class="form-input" type="text" placeholder="YOUR NAME" id="aName">
-      <input class="form-input" type="email" placeholder="EMAIL ADDRESS">
-      <input class="form-input" type="text" placeholder="COMPANY / BRAND">
-      <input class="form-input" type="text" placeholder="CURRENT ANNUAL REVENUE">
-      <textarea class="form-input" placeholder="WHAT DO YOU NEED?" rows="3" style="resize:none;"></textarea>
-      <button onclick="submitForm()" style="font-family:var(--font-mono);font-size:0.7rem;letter-spacing:2px;background:var(--red);border:none;color:#fff;cursor:pointer;padding:0.8rem;width:100%;">SUBMIT APPLICATION →</button>
-      <div id="formMsg" style="display:none;font-family:var(--font-mono);font-size:0.66rem;color:var(--red);letter-spacing:2px;text-align:center;padding:0.5rem;">// MESSAGE RECEIVED. WE'LL BE IN TOUCH.</div>
+      <input class="form-input" type="email" placeholder="EMAIL ADDRESS" id="aEmail">
+      <input class="form-input" type="text" placeholder="COMPANY / BRAND" id="aBrand">
+      <input class="form-input" type="text" placeholder="CURRENT ANNUAL REVENUE" id="aRev">
+      <textarea class="form-input" placeholder="WHAT DO YOU NEED?" rows="3" style="resize:none;" id="aMsg"></textarea>
+      <button onclick="sendMail()" style="font-family:var(--font-mono);font-size:0.7rem;letter-spacing:2px;background:var(--red);border:none;color:#fff;cursor:pointer;padding:0.8rem;width:100%;">GET IN TOUCH →</button>
     </div>
   </div>
 </div></div>
@@ -398,7 +415,7 @@
 
 <div class="section-wrap alt" id="books"><div class="inner">
   <p class="section-label">// 06 · READING LIST</p>
-  <h2 class="section-title">BOOKS THAT<br><span>HIT DIFFERENT</span></h2>
+  <h2 class="section-title">GOOD<br><span>BOOKS</span></h2>
   <div class="divider"></div>
   <div class="books-grid">
     <div class="book-item"><div class="book-num">// 001</div><div class="book-title">RED RISING SERIES</div><div class="book-note">Pierce Brown. My son is named after the main character. My thoughts coming soon.</div></div>
@@ -527,11 +544,21 @@ function toggleArticle(header) {
   document.querySelectorAll('.article-item.open').forEach(el => el.classList.remove('open'));
   if (!isOpen) item.classList.add('open');
 }
-function submitForm() {
-  const n = document.getElementById('aName').value;
-  if (!n.trim()) { document.getElementById('aName').focus(); return; }
-  document.getElementById('agencyForm').querySelectorAll('input,textarea,button').forEach(el => el.style.display = 'none');
-  document.getElementById('formMsg').style.display = 'block';
+function sendMail() {
+  const name = document.getElementById('aName').value.trim();
+  const email = document.getElementById('aEmail').value.trim();
+  const brand = document.getElementById('aBrand').value.trim();
+  const rev = document.getElementById('aRev').value.trim();
+  const msg = document.getElementById('aMsg').value.trim();
+  if (!name) { document.getElementById('aName').focus(); return; }
+  const body = encodeURIComponent(
+    'Name: ' + name + '\n' +
+    'Email: ' + email + '\n' +
+    'Company/Brand: ' + brand + '\n' +
+    'Revenue: ' + rev + '\n\n' +
+    'Message:\n' + msg
+  );
+  window.location.href = 'mailto:ismynamecolin@gmail.com?subject=Rize%20Agency%20Inquiry%20from%20' + encodeURIComponent(name) + '&body=' + body;
 }
 </script>
 </body>

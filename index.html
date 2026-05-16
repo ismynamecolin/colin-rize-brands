@@ -7,14 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --red: #CC0000; --red-border: rgba(204,0,0,0.25);
-    --bg: #000000; --bg2: #070707; --bg3: #0d0d0d;
-    --text: #ffffff; --muted: #888;
-    --font-mono: 'Share Tech Mono', monospace;
-    --font-display: 'Bebas Neue', sans-serif;
-    --font-body: 'Inter', sans-serif;
-  }
+
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
   #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.04; pointer-events: none; z-index: 0; }
@@ -150,7 +143,6 @@
   .company-name { font-family: var(--font-display); font-size: 3rem; letter-spacing: 3px; color: #fff; line-height: 1; margin-bottom: 0.2rem; }
   .company-sub { font-family: var(--font-display); font-size: 1rem; letter-spacing: 3px; color: var(--red); margin-bottom: 1rem; }
   .company-desc { font-size: 0.8rem; color: #ccc; line-height: 1.7; }
-  .agency-box { background: var(--bg3); border: 1px solid var(--red-border); padding: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
   .agency-heading { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 3px; color: #fff; margin-bottom: 0.8rem; }
   .agency-heading span { color: var(--red); }
   .warning-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.58rem; color: var(--red); border: 1px solid var(--red); padding: 0.22rem 0.65rem; letter-spacing: 2px; margin-bottom: 1rem; }
@@ -220,8 +212,8 @@
     position: fixed;
     top: 1rem; right: 1rem;
     z-index: 300;
-    background: rgba(0,0,0,0.9);
-    border: 1px solid var(--red-border);
+    background: transparent;
+    border: none;
     padding: 0.5rem 0.7rem;
     cursor: pointer;
     flex-direction: column;
@@ -281,6 +273,162 @@
     #mobile-overlay { display: block; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
     #mobile-overlay.open { opacity: 1; pointer-events: all; }
   }
+
+  
+
+  
+
+  /* ── LIGHT MODE (default) ── */
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f5;
+    --bg3: #ebebeb;
+    --text: #111111;
+    --muted: #777;
+    --red: #CC0000;
+    --red-border: rgba(180,0,0,0.2);
+    --font-mono: 'Share Tech Mono', monospace;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+  body { background: var(--bg); color: var(--text); }
+  #matrix-canvas { opacity: 0.025; }
+  #top-nav { background: rgba(242,237,230,0.96); }
+  .top-nav-links a { color: #888; }
+  #side-nav { background: rgba(242,237,230,0.97); }
+  .side-nav-label { color: #999; }
+  .landing-grid { border-color: rgba(180,0,0,0.25); }
+  .toc-sub { color: #999; }
+  .toc-num { color: #aaa; }
+  .landing-stat-label { color: #888; }
+  .landing-ctas { border-color: rgba(180,0,0,0.2); }
+  .section-wrap.alt { background: var(--bg2); }
+  .stat-card, .work-card, .company-card, .agency-box,
+  .book-item, .article-item, .social-item, .media-item,
+  .article-header, .article-body { background: var(--bg3); color: var(--text); }
+  .about-text p, .work-card-desc, .company-desc, .timeline-desc,
+  .media-desc, .social-note, .book-note, .article-title,
+  .stat-label { color: #333; }
+  .form-input { background: var(--bg2); border-color: rgba(0,0,0,0.15); color: #111; }
+  .form-input::placeholder { color: #aaa; }
+
+  /* ── DARK MODE ── */
+  body.dark {
+    --bg: #000000;
+    --bg2: #070707;
+    --bg3: #0d0d0d;
+    --text: #ffffff;
+    --muted: #555;
+    --red-border: rgba(204,0,0,0.25);
+    background: var(--bg);
+    color: var(--text);
+  }
+  body.dark #matrix-canvas { opacity: 0.04; }
+  body.dark #top-nav { background: rgba(0,0,0,0.97); }
+  body.dark .top-nav-links a { color: #999; }
+  body.dark #side-nav { background: rgba(0,0,0,0.95); }
+  body.dark .side-nav-label { color: #777; }
+  body.dark .toc-sub { color: #666; }
+  body.dark .toc-num { color: #444; }
+  body.dark .landing-stat-label { color: #bbb; }
+  body.dark .section-wrap.alt { background: var(--bg2); }
+  body.dark .stat-card, body.dark .work-card, body.dark .company-card,
+  body.dark .agency-box, body.dark .book-item, body.dark .article-item,
+  body.dark .social-item, body.dark .media-item,
+  body.dark .article-header, body.dark .article-body { background: var(--bg3); color: #fff; }
+  body.dark .about-text p, body.dark .work-card-desc, body.dark .company-desc,
+  body.dark .timeline-desc, body.dark .media-desc, body.dark .social-note,
+  body.dark .book-note, body.dark .article-title, body.dark .stat-label { color: #ccc; }
+  body.dark .form-input { background: var(--bg); border-color: rgba(255,255,255,0.1); color: #fff; }
+  body.dark .form-input::placeholder { color: #555; }
+
+  /* Theme toggle — above name */
+  #theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0;
+    margin-bottom: 0.4rem;
+    display: block;
+    opacity: 0.6;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  #theme-toggle:hover { opacity: 1; transform: scale(1.15); }
+
+  /* Force dark text throughout in light mode */
+  body:not(.dark) .section-title,
+  body:not(.dark) .section-title span,
+  body:not(.dark) .site-name,
+  body:not(.dark) .toc-title,
+  body:not(.dark) .work-card-name,
+  body:not(.dark) .company-name,
+  body:not(.dark) .media-name,
+  body:not(.dark) .social-platform,
+  body:not(.dark) .book-title,
+  body:not(.dark) .timeline-title,
+  body:not(.dark) .agency-heading,
+  body:not(.dark) .top-nav-logo,
+  body:not(.dark) .stat-num,
+  body:not(.dark) .landing-stat-num { color: #1a1a1a; }
+  body:not(.dark) .section-title span,
+  body:not(.dark) .company-name { color: #1a1a1a; }
+  body:not(.dark) .site-name span { color: var(--red); }
+  body:not(.dark) .section-title span { color: var(--red); }
+  body:not(.dark) .toc-title { color: var(--red); }
+  body:not(.dark) .work-card-role,
+  body:not(.dark) .media-role,
+  body:not(.dark) .company-label,
+  body:not(.dark) .company-sub,
+  body:not(.dark) .timeline-year,
+  body:not(.dark) .section-label,
+  body:not(.dark) .landing-cta,
+  body:not(.dark) .book-num,
+  body:not(.dark) .article-num { color: var(--red); }
+  body:not(.dark) #top-nav { background: rgba(255,255,255,0.97); }
+  body:not(.dark) .side-nav-link.active .side-nav-label { color: var(--red); }
+  body:not(.dark) .landing-grid { border-color: rgba(0,0,0,0.12); }
+  body:not(.dark) .toc-row { border-bottom-color: rgba(0,0,0,0.08); }
+  body:not(.dark) .landing-stat { border-bottom-color: rgba(0,0,0,0.08); }
+  body:not(.dark) .landing-ctas { border-color: rgba(0,0,0,0.12); }
+  body:not(.dark) .work-card-date { color: #666; }
+  body:not(.dark) .media-date { color: #666; }
+  body:not(.dark) .site-tagline { color: #555; }
+
+  /* Force agency + rize section text black in light mode */
+  body:not(.dark) .agency-box p,
+  body:not(.dark) .agency-box div,
+  body:not(.dark) #rize p { color: #111 !important; }
+
+  .agency-box-new {
+    background: var(--bg3);
+    border: 1px solid var(--red-border);
+    padding: 2rem 2.5rem;
+    max-width: 640px;
+  }
+  .agency-heading { font-family: var(--font-display); font-size: 2rem; letter-spacing: 3px; color: inherit; line-height: 1; margin-bottom: 0.8rem; }
+  .agency-heading span { color: var(--red); }
+  .agency-p { font-size: 0.86rem; color: inherit; line-height: 1.75; margin-bottom: 1rem; }
+  .agency-bullets { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 1.5rem; }
+  .agency-bullet { font-family: var(--font-mono); font-size: 0.66rem; color: inherit; letter-spacing: 1px; }
+  .agency-email-btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    color: #fff;
+    background: var(--red);
+    padding: 0.75rem 1.8rem;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .agency-email-btn:hover { opacity: 0.8; }
+  body:not(.dark) .agency-box-new { background: var(--bg3); }
+  body:not(.dark) .agency-p,
+  body:not(.dark) .agency-bullet,
+  body:not(.dark) .agency-heading { color: #111; }
+  body:not(.dark) .warning-tag { color: var(--red); border-color: var(--red); }
 </style>
 </head>
 <body>
@@ -338,6 +486,7 @@
 <div id="landing">
   <!-- Name + tagline -->
   <div class="landing-name">
+    <button id="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light">🌙</button>
     <div class="site-name">COLIN<br><span>STUCKERT</span></div>
     <div class="site-tagline">// FOUNDER · OPERATOR · BUILDER</div>
   </div>
@@ -462,7 +611,7 @@
   <p class="section-label">// 03 · MY COMPANY</p>
   <h2 class="section-title">RIZE<br><span>BRANDS</span></h2>
   <div class="divider"></div>
-  <p style="color:#ddd;font-size:0.88rem;max-width:600px;margin-bottom:2.5rem;line-height:1.8;">My brands, my agency, my capital arm. We work with only a few clients at a time.</p>
+  <p style="color:inherit;font-size:0.88rem;max-width:600px;margin-bottom:2.5rem;line-height:1.8;">My brands, my agency, my capital arm. We work with only a few clients at a time.</p>
   <div class="rize-companies">
     <div class="company-card"><div class="company-label">// RIZE</div><div class="company-name">HOLD CO</div><div class="company-sub">MY BRANDS</div><div class="company-desc">Where I launch, acquire, and operate consumer brands. Currently home to Carnivore Bar.</div></div>
     <div class="company-card"><div class="company-label">// RIZE</div><div class="company-name">RIZE AI</div><div class="company-sub">AI AGENCY</div><div class="company-desc">AI-powered systems, creative, and agency services for e-commerce brands.</div></div>
@@ -474,27 +623,17 @@
   <p class="section-label">// 04 · AGENCY</p>
   <h2 class="section-title">WORK WITH<br><span>RIZE CREATIVE</span></h2>
   <div class="divider"></div>
-  <div class="agency-box">
-    <div>
-      <div class="warning-tag">⚡ VERY LIMITED AVAILABILITY</div>
-      <h3 class="agency-heading">WE LAUNCH &<br><span>SCALE BRANDS.</span></h3>
-      <p style="font-size:0.84rem;color:#ccc;line-height:1.8;margin-bottom:0.8rem;">We take on a small number of clients per year. Strategy, AI systems, growth execution. We build alongside you.</p>
-      <p style="font-size:0.84rem;color:#ccc;line-height:1.8;margin-bottom:0.8rem;">$500K to $5M in e-commerce revenue? Let's talk.</p>
-      <div style="display:flex;flex-direction:column;gap:0.35rem;margin-top:0.6rem;">
-        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#ccc;">→ &nbsp;Brand launch strategy</div>
-        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#ccc;">→ &nbsp;AI-powered creative systems</div>
-        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#ccc;">→ &nbsp;E-commerce growth operations</div>
-        <div style="font-family:var(--font-mono);font-size:0.64rem;color:#ccc;">→ &nbsp;Capital strategy and introductions</div>
-      </div>
+  <div class="agency-box-new">
+    <div class="warning-tag">⚡ VERY LIMITED AVAILABILITY</div>
+    <h3 class="agency-heading">WE LAUNCH &<br><span>SCALE BRANDS.</span></h3>
+    <p class="agency-p">We take on a small number of clients per year. Strategy, AI systems, growth execution. We build alongside you. $500K to $5M in e-commerce revenue? Let's talk.</p>
+    <div class="agency-bullets">
+      <div class="agency-bullet">→ &nbsp;Brand launch strategy</div>
+      <div class="agency-bullet">→ &nbsp;AI-powered creative systems</div>
+      <div class="agency-bullet">→ &nbsp;E-commerce growth operations</div>
+      <div class="agency-bullet">→ &nbsp;Capital strategy and introductions</div>
     </div>
-    <div class="contact-form" id="agencyForm">
-      <input class="form-input" type="text" placeholder="YOUR NAME" id="aName">
-      <input class="form-input" type="email" placeholder="EMAIL ADDRESS" id="aEmail">
-      <input class="form-input" type="text" placeholder="COMPANY / BRAND" id="aBrand">
-      <input class="form-input" type="text" placeholder="CURRENT ANNUAL REVENUE" id="aRev">
-      <textarea class="form-input" placeholder="WHAT DO YOU NEED?" rows="3" style="resize:none;" id="aMsg"></textarea>
-      <button onclick="sendMail()" style="font-family:var(--font-mono);font-size:0.7rem;letter-spacing:2px;background:var(--red);border:none;color:#fff;cursor:pointer;padding:0.8rem;width:100%;">GET IN TOUCH →</button>
-    </div>
+    <a href="mailto:ismynamecolin@gmail.com" class="agency-email-btn">EMAIL ME →</a>
   </div>
 </div></div>
 
@@ -716,6 +855,23 @@ function closeMobileMenu() {
   document.getElementById('mobile-menu').classList.remove('open');
   document.getElementById('mobile-overlay').classList.remove('open');
 }
+
+
+function toggleTheme() {
+  const body = document.body;
+  const btn = document.getElementById('theme-toggle');
+  body.classList.toggle('dark');
+  btn.textContent = body.classList.contains('dark') ? '☀️' : '🌙';
+  localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+}
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') {
+    document.body.classList.add('dark');
+    const btn = document.getElementById('theme-toggle');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
 </script>
 </body>
 </html>
